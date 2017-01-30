@@ -4,14 +4,19 @@ var backdrop, muniLayer;
 var nPolygon;
 var mPolygon;
 
-//initialize map
+var api_url = "https://tools.wprdc.org/property-api/data_within/";
+
+/**************************************
+ * MAP STUFF
+ *
+ **************************************/
 var map = new L.Map('map', {
     center: [40.45, -79.9959],
     zoom: 11
 });
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://cartodb.com/attributions">CartoDB</a>'
+L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/attributions">CartoDB</a>'
 }).addTo(map);
 
 var selectLayer = L.geoJson().addTo(map); //add empty geojson layer for selections
@@ -74,7 +79,7 @@ map.on('draw:drawstart', function (e) {
 });
 
 //add cartodb named map
-var layerUrl = 'https://wprdc.cartodb.com/api/v2/viz/24843ea8-f778-11e5-a7c9-0e674067d321/viz.json';
+var layerUrl = 'https://wprdc.carto.com/api/v2/viz/24843ea8-f778-11e5-a7c9-0e674067d321/viz.json';
 
 cartodb.createLayer(map, layerUrl)
     .addTo(map)
@@ -84,9 +89,10 @@ cartodb.createLayer(map, layerUrl)
         //TODO: build array of selction layers based off JSON file
         muniLayer = layer.getSubLayer(1);
         hoodLayer = layer.getSubLayer(2);
-
+        //hoodLayer.setInteractivity("cartodb_id, hood");
         muniLayer.hide();  //hide municipality polygons
         hoodLayer.hide();
+        console.log(hoodLayer);
         muniLayer.on('featureClick', processMuni);
         hoodLayer.on('featureClick', processNeighborhood);
     });
@@ -101,7 +107,7 @@ $.getJSON('data/fields.json', function (data) {
             + '<span class="glyphicon glyphicon-info-sign icon-right" aria-hidden="true"></span></li>'
 
         $('.fieldList').append(listItem);
-        $('#' + field.name).data("description", field.description);
+        $('#' + field.name).data("description", field.description).data("resource", field.resource);
 
     });
 
@@ -175,7 +181,7 @@ $('input[type=radio][name=area]').change(function () {
     }
 });
 
-var flush_selections = function(){
+var flush_selections = function () {
     customPolygon = undefined;
     nPolygon = undefined;
     mPolygon = undefined;
@@ -194,16 +200,8 @@ $('.download').click(function () {
     console.log(checked);
 
     //generate comma-separated list of fields
-    data.fields = '';
-    for (var i = 0; i < checked.length; i++) {
-        data.fields += checked[i] + ',';
-    }
+    data.fields = JSON.stringify(checked);
     console.log(data.fields);
-
-    //only add leading comma if at least one field is selected
-    if (data.fields.length > 0) {
-        data.fields = ',' + data.fields.slice(0, -1);
-    }
 
 
     if (areaType == 'currentView') {
@@ -216,7 +214,7 @@ $('.download').click(function () {
     }
 
     if (areaType == 'polygon') {
-        if(customPolygon == undefined){
+        if (customPolygon == undefined) {
             alert("Don't forget to draw your area on the map!");
             return;
         }
@@ -225,7 +223,7 @@ $('.download').click(function () {
 
 
     if (areaType == 'municipality') {
-        if(mPolygon == undefined){
+        if (mPolygon == undefined) {
             alert("Don't forget to select your municipality from the map!");
             return;
         }
@@ -234,7 +232,7 @@ $('.download').click(function () {
     }
 
     if (areaType == 'neighborhood') {
-        if(nPolygon == undefined){
+        if (nPolygon == undefined) {
             alert("Don't forget to select your neighborhood from the map!");
             return;
         }
@@ -246,34 +244,28 @@ $('.download').click(function () {
         data.cartodb = true;
     }
 
-    var queryTemplate = 'https://wprdc.cartodb.com/api/v2/sql?skipfields=cartodb_id,created_at,updated_at,name,description&format={{type}}&filename=parcel_data&q=SELECT the_geom{{fields}} FROM property_assessment_app a WHERE ST_INTERSECTS({{{intersects}}}, a.the_geom)';
-
-
+    /********************************************************
+     * GET PINS WITHIN SELECTION
+     ********************************************************/
+        // Generate query for property-api
+    var queryTemplate = api_url + "?shape={{{intersects}}}&fields={{{fields}}}&type={{{type}}}";
     var buildquery = Handlebars.compile(queryTemplate);
-    console.log(data);
     var url = buildquery(data);
 
     console.log("Downloading " + url);
 
-    //http://oneclick.cartodb.com/?file={{YOUR FILE URL}}&provider={{PROVIDER NAME}}&logo={{YOUR LOGO URL}}
+    //http://oneclick.carto.com/?file={{YOUR FILE URL}}&provider={{PROVIDER NAME}}&logo={{YOUR LOGO URL}}
     if (data.cartodb) {
-        //open in cartodb only works if you encodeURIcomponent() on the SQL,
-        //then concatenate with the rest of the URL, then encodeURIcomponent() the whole thing
-
-        //first, get the SQL
-        var sql = url.split("q=");
-        sql = encodeURIComponent(sql[1]);
-
-
-        url = url.split("SELECT")[0];
-        url += sql;
-
         url = encodeURIComponent(url);
+        url = 'https://oneclick.carto.com/?file=' + url;
         console.log(url);
-        url = 'https://oneclick.cartodb.com/?file=' + url;
+        window.open(url);
+    }
+    else {
+        console.log(url);
+        window.open(url);
     }
 
-    window.open(url, 'My Download');
 
 
 });
@@ -283,46 +275,46 @@ $('.download').click(function () {
 //when a polygon is clicked in Neighborhood View, download its geojson, etc
 function processMuni(e, latlng, pos, data, layer) {
     console.log('Muni data', data);
-    var nid = data.cartodb_id;
+    var nid = data.f0_label;
     selectLayer.clearLayers();
     console.log(nid);
     var sql = new cartodb.SQL({user: 'wprdc'});
-    sql.execute("SELECT the_geom FROM allegheny_county_municipal_boundaries WHERE cartodb_id = {{id}}",
+    sql.execute("SELECT the_geom FROM allegheny_county_municipal_boundaries WHERE f0_label = '{{id}}'",
         {
-            id: data.cartodb_id
+            id: data.f0_label
         },
         {
             format: 'geoJSON'
         }
-        )
+    )
         .done(function (data) {
             console.log(data);
             selectLayer.addData(data);
             //setup SQL statement for intersection
-            mPolygon = '(SELECT the_geom FROM allegheny_county_municipal_boundaries WHERE cartodb_id = ' + nid + ')';
+            mPolygon = "(SELECT the_geom FROM allegheny_county_municipal_boundaries WHERE f0_label = '" + nid + "')";
         })
 }
 
 
 function processNeighborhood(e, latlng, pos, data, layer) {
     console.log('Hood data', data);
-    var nid = data.cartodb_id;
+    var nid = data.hood;
     selectLayer.clearLayers();
     console.log(nid);
     var sql = new cartodb.SQL({user: 'wprdc'});
-    sql.execute("SELECT the_geom FROM pittsburgh_neighborhoods WHERE cartodb_id = {{id}}",
+    sql.execute("SELECT the_geom FROM pittsburgh_neighborhoods WHERE hood = '{{id}}'",
         {
-            id: data.cartodb_id
+            id: data.hood
         },
         {
             format: 'geoJSON'
         }
-        )
+    )
         .done(function (data) {
             console.log(data);
             selectLayer.addData(data);
             //setup SQL statement for intersection
-            nPolygon = '(SELECT the_geom FROM pittsburgh_neighborhoods WHERE cartodb_id = ' + nid + ')';
+            nPolygon = "(SELECT the_geom FROM pittsburgh_neighborhoods WHERE hood = '" + nid + "')";
         })
 }
 
@@ -343,7 +335,7 @@ function makeSqlPolygon(coords) {
             s += firstCoord.lng + " " + firstCoord.lat;
         }
     });
-    s += "))\'),4326)"
+    s += "))\'),4326)";
     console.log(s);
     return s;
 }
@@ -423,7 +415,10 @@ function initCheckboxes() {
 function listChecked() {
     var checkedItems = [];
     $(".fieldList li.active").each(function (idx, li) {
-        checkedItems.push($(li).attr('id'));
+        checkedItems.push({
+            'f': $(li).attr('id'),
+            'r': $(li).data('resource')
+        });
         console.log(checkedItems);
     });
     return checkedItems;
@@ -452,78 +447,4 @@ $(document).ready(function () {
         }
     });
 
-    var scrollShadow = (function () {
-        var elem, width, height, offset,
-            shadowTop, shadowBottom,
-            timeout;
-
-        function initShadows() {
-            shadowTop = $("<div>")
-                .addClass("shadow-top")
-                .insertAfter(elem);
-            shadowBottom = $("<div>")
-                .addClass("shadow-bottom")
-                .insertAfter(elem)
-                .css('display', 'block');
-        }
-
-        function calcPosition() {
-            width = elem.outerWidth();
-            height = elem.outerHeight();
-            offset = elem.position();
-
-            // update
-            shadowTop.css({
-                width: width + "px",
-                top: offset.top + "px",
-                left: offset.left + "px"
-            });
-            shadowBottom.css({
-                width: width + "px",
-                top: (offset.top + height - 40) + "px",
-                left: offset.left + "px"
-            });
-        }
-
-        function addScrollListener() {
-            elem.off("scroll.shadow");
-            elem.on("scroll.shadow", function () {
-                if (elem.scrollTop() > 0) {
-                    shadowTop.fadeIn(125);
-                } else {
-                    shadowTop.fadeOut(125);
-                }
-                if (elem.scrollTop() + height >= elem[0].scrollHeight && elem.scrollTop() !== 0) {
-                    shadowBottom.fadeOut(125);
-                } else {
-                    shadowBottom.fadeIn(125);
-                }
-            });
-        }
-
-        function addResizeListener() {
-            $(window).on("resize.shadow", function () {
-                clearTimeout(timeout);
-                timeout = setTimeout(function () {
-                    calcPosition();
-                    elem.trigger("scroll.shadow");
-                }, 10);
-            });
-        }
-
-        return {
-            init: function (par) {
-                elem = $(par);
-                initShadows();
-                calcPosition();
-                addScrollListener();
-                addResizeListener();
-                elem.trigger("scroll.shadow");
-            },
-            update: calcPosition
-        };
-
-    }());
-    // start
-    scrollShadow.init(".well-inner");
 });

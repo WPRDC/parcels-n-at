@@ -1,213 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-<head profile="http://www.w3.org/2005/10/profile">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="./favicon.ico">
 
-    <title>WPRDC Property Assessment Data Downloader</title>
+    <title>Parcels n'at</title>
+    <link rel="icon" type="image/png" href="./favicon.png">
 
+    <!-- Fonts and Icons -->
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
-
-
-    <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/themes/css/cartodb.css"/>
-    <link rel="stylesheet" href="css/leaflet.draw.css">
-    <link rel="stylesheet" href="css/styleguide.min.css">
-    <link rel="stylesheet" type="text/css" href="css/icons.css">
-    <link rel="stylesheet" href="css/style.css">
     <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
 
-    <link rel="icon" type="image/png" href="./favicon.png">
+
+    <!-- Map Styles -->
+    <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/themes/css/cartodb.css"/>
+    <link rel="stylesheet" href="css/leaflet.draw.css">
+
+    <!-- Site Styles -->
+    <link rel="stylesheet" href="css/foundation.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/buttons.css">
+
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+
 </head>
 
 <body>
-<div class="HeaderFixed HeaderFixed--blue color-white">
-    <div class="Grid">
-        <div class="Grid-inner Grid-inner--vcenter">
-            <div class="Grid-cell Grid-cell--col6">
-                <h1 class="u-iblock u-malign main-title"><strong> <span style="color: #2C9AE9;">wp</span><span
-                        style="color: white;">rdc</span> | Property Information Extractor</strong> BETA</h1>
+<div class="reveal large" id="fields-reveal" data-reveal>
+    <h1>Select Your Fields</h1>
+    <p class="lead">Your couch. It is mine.</p>
+    <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div id="flex-town">
+    <!-- Header -->
+    <div data-sticky-container id="top-title-bar">
+        <!-- For Mobile -->
+        <div class="title-bar" data-responsive-toggle="nav-menu" data-hide-for="medium"
+             data-options="marginTop:0;" style="width:100%" data-top-anchor="1">
+            <button class="menu-icon" type="button" data-toggle></button>
+            <div class="title-bar-title">
+                <a href="https://www.wprdc.org"> <img
+                        src="https://www.wprdc.org/wp-content/themes/wprdc/assets/img/small-logo.png"
+                        style="height:1.5em;"></a>
             </div>
-            <div class="Grid-cell Grid-cell--col6 clearfix u-txt-right">
-                <nav class="">
-                    <ul class="u-ilist">
-                        <li class="u-malign"><a href="https://twitter.com/share" class="twitter-share-button"
-                                                data-url="http://wprdc.github.io/property-information-extractor/"
-                                                data-text="Custom download tool for Allegheny County Property Assessment Data @wprdc"
-                                                data-via="wprdc">Tweet</a>
-                            <script>!function (d, s, id) {
-                                var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https';
-                                if (!d.getElementById(id)) {
-                                    js = d.createElement(s);
-                                    js.id = id;
-                                    js.src = p + '://platform.twitter.com/widgets.js';
-                                    fjs.parentNode.insertBefore(js, fjs);
-                                }
-                            }(document, 'script', 'twitter-wjs');</script>
-                        </li>
-                        <li class="u-malign u-lspace-xl">
-                            <p class="button button--white">
-                                <a class="js-about" href="#">About</a>
-                            </p>
-                        </li>
-                        <li class="u-malign u-lspace-xl">
-                            <p class="button button--white">
-                                <a href="http://github.com/WPRDC/property-information-extractor">Fork Me on Github</a>
-                            </p>
-                        </li>
-                        <li class="u-malign u-lspace-xl">
-                            <p class="button button--white">
-                                <a href="http://github.com/chriswhong/plutoplus">The Original</a>
-                        </li>
-                    </ul>
-                </nav>
+        </div>
+
+        <!-- Large Screens -->
+        <div class="top-bar" id="nav-menu" data-options="marginTop:0;" style="width:100%"
+             data-top-anchor="1">
+            <div class="top-bar-left">
+                <a href="https://www.wprdc.org"> <img
+                        src="https://www.wprdc.org/wp-content/themes/wprdc/assets/img/small-logo.png"> </a>
+            </div>
+            <div class="top-bar-right">
+                <ul class="dropdown menu" data-dropdown-menu>
+                    <li><a href="#about">About</a></li>
+                </ul>
             </div>
         </div>
     </div>
-</div>
-<div class="Grid-inner Grid-inner--hfull">
-    <div class="Grid-cell fill-blue Grid-cell--col8 u-pr">
-        <div id="map" class="u-pa">
+
+    <!-- The Stuff -->
+    <div id="main-content-container" class="expanded row" data-equalizer>
+        <!-- Map -->
+        <div id="map" class="medium-8 large-10 columns" data-equalizer-watch>
             <button type="button" class="infoArrow btn btn-primary btn-arrow-right">Use these buttons to draw your
                 polygon
             </button>
         </div>
-    </div>
-    <div class="Grid-cell Grid-cell--col4 sidebar-cell">
-        <div id="sidebar" class="u-padding-m u-pr">
-            <ul class="List-blocks">
-                <li class="u-vspace-xxl">
-                    <div class="u-vspace-l">
-                        <span class="Number-circle u-txt-center fill fill-dark color-white u-iblock u-malign">1</span>
-                        <h2 class="u-iblock u-malign"><strong>Choose Area</strong></h2>
-                    </div>
 
-                    <ul class="ListOptions u-vspace-xxl">
-                        <!--TODO: build list based on regions JSON -->
-                        <li>
-                            <label>
-                                <input class="u-iblock u-malign" type="radio" for="option1" name="area"
-                                       value="currentView" checked>
-                                <p class="u-iblock u-malign" id="option1"> Current Map View</p>
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                <input class="u-iblock u-malign" type="radio" for="option2" name="area"
-                                       value="municipality">
-                                <p class="u-iblock u-malign" id="option2"> Municipality </p>
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                <input class="u-iblock u-malign" type="radio" for="option4" name="area"
-                                       value="neighborhood">
-                                <p class="u-iblock u-malign" id="option4"> Neighborhood </p>
-                            </label>
-                        </li>
-                        <li>
-                            <label>
-                                <input class="u-iblock u-malign" type="radio" for="option3" name="area" value="polygon">
-                                <p class="u-iblock u-malign" id="option3"> Draw a polygon</p>
-                            </label>
-                        </li>
-                    </ul>
-                </li>
-                <li class="u-vspace-xxl">
-                    <div class="u-vspace-l clearfix">
-                        <div class="u-left">
-                            <span class="Number-circle u-txt-center fill fill-dark color-white u-iblock u-malign">2</span>
-                            <h2 class="u-iblock u-malign"><strong>Choose Columns</strong></h2>
-                        </div>
-                        <p class="u-right"><a href="#" id="selectAll">Select All</a></p>
-                    </div>
-                    <div class="u-vspace-xxl">
-                        <div class="well u-pr" style="height: 215px;">
-                            <div class="well-inner" style="height: 215px; overflow: auto;">
-                                <ul class="list-group checked-list-box fieldList u-pr">
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="u-vspace-l">
-                        <span class="Number-circle u-txt-center fill fill-dark color-white u-iblock u-malign">3</span>
-                        <h2 class="u-iblock u-malign"><strong>Download!</strong></h2>
-                    </div>
-                    <ul class="u-ilist u-vspace-xxl">
-                        <li>
-                            <p class="button button--small button--blue">
-                                <a href="#" id="geojson" class="btn btn-sm btn-success download">geoJson</a>
-                            </p>
-                        </li>
-                        <li>
-                            <p class="button button--small button--blue">
-                                <a href="#" id="csv" class="btn btn-sm btn-success download">CSV</a>
-                            </p>
-                        </li>
-                        <li>
-                            <p class="button button--small button--blue">
-                                <a href="#" id="shp" class="btn btn-sm btn-success download">Shapefile</a>
-                            </p>
-                        </li>
-                        <li>
-                            <p class="button button--small button--blue">
-                                <a href="#" id="cartodb" class="btn btn-sm btn-success download">Open in CartoDB</a>
-                            </p>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+        <!-- Options -->
+        <div id="options-pane" class="medium-4 large-2 columns" data-equalizer-watch>
 
+            <!-- Area Selection -->
+            <h3 class="">1. Select Your Area:</h3>
+            <div class="btn-group btn-group-vertical" data-toggle="buttons">
+                <label class="btn" >
+                    <input type="radio" id="currentview-opt" name="area" value="currentView" checked="checked">
+                    <i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i>
+                    <span class="area-label">Current View</span>
+                </label>
+
+                <label class="btn">
+                    <input type="radio" id="muni-opt" name="area" value="municipality" checked="checked">
+                    <i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i>
+                    <span class="area-label">Municipality</span>
+                </label>
+
+                <label class="btn">
+                    <input type="radio" id="hood-opt" name="area" value="neighborhood" checked="checked">
+                    <i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i>
+                    <span class="area-label">Neighborhood</span>
+                </label>
+
+                <label class="btn">
+                    <input type="radio" id="polygon-opt" name="area" value="polygon" checked="checked">
+                    <i class="fa fa-circle-o fa-2x"></i><i class="fa fa-dot-circle-o fa-2x"></i>
+                    <span class="area-label">Draw Your Region</span>
+                </label>
+            </div>
+            <hr>
+            <!-- Fields Selection -->
+            <h3>2. Select Your Fields</h3>
+            <div>
+                <a href="#" id="customfields-btn" class="button radius" data-open="fields-reveal">Custom</a>
+                <a href="#" id="housing-alues-btn" class="button radius">Property Values</a>
+                <a href="#" id="sales-btn" class="button radius">Radius Button</a>
+            </div>
+
+            <!-- Download Buttons -->
         </div>
+
+
+    </div>
+
+    <!-- Footer -->
+    <div id="footer">
+        <p>Stuff, son!</p>
     </div>
 </div>
 
-<div id="modal" class="u-valign u-txt-center" style="display: none;">
-    <div class="modal-inner u-iblock u-malign u-padding-xxl">
-        <div class="modal-header navbar-custom u-vspace-xxl">
-            <h2><strong>P</strong>roperty <strong>I</strong>nformation <strong>E</strong>xtractor</h2>
-            <h5>Get yourself a slice of this data!</h5>
-        </div>
-        <div class="modal-body u-txt-left">
 
-            <p class="u-vspace-l">You can use this tool to filter and download Allegheny County Property Assessment data
-                hosted on
-                the <a href="http://www.wprdc.org">WPRDC</a>. You can select a municipality, a neighborhood or even draw
-                the region you'd like data for.
-            </p>
 
-            <p class="u-vspace-l">Currently only property assessment data is available, but we plan to link more
-                datasets in the future!
-            </p>
-
-            <p class="u-vspace-l"><a href='https://data.wprdc.org/dataset/property-assessments'>Get the entire data set
-                on the WPRDC.</a></p>
-
-            <p class="u-vspace-l">This project is <strong>heavily</strong> based on Chris Whong's <a
-                    href="http://chriswhong.github.io/plutoplus/"> NYC Pluto data Downloader</a>. You can read his
-                write-up on his project at <a href="http://www.chriswhong.com">chriswhong.com</a>.
-                Support open Data!</p>
-        </div>
-    </div>
-</div>
-
-<div id="infoWindow">ZONING, ALL COMPONENTS 1 consists of the zoning classification occupying the greatest percentage of
-    the tax lot's area and a commercial overlay and special purpose district and limited height district assigned to the
-    tax lot
-</div>
-
+<!--TODO: update jquery version-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.13/cartodb.js"></script>
+
+<!-- TODO: remove handlebars -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+<!-- Style Libraries -->
+<script src="js/vendor/foundation.js"></script>
+<script>
+    $(document).foundation();
+</script>
+
+<!-- Mapping Libraries -->
+<script src="js/vendor/cartodb.js"></script>
 <script src="js/leaflet.draw.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
-<script src="js/script.js"></script>
 
+<script src="js/script.js"></script>
 </body>
 </html>
