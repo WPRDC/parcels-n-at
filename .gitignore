@@ -1,6 +1,7 @@
-# IntelliJ project files
 .idea
-*.iml
-out
-gen
 
+.DS_Store
+bower_components
+node_modules
+npm-debug.log
+css

@@ -1,9 +1,48 @@
-# Property Information Extractor
+# Foundation for Sites Template
 
-Try it for yourself [here](http://wprdc.github.io/property-information-extractor/)!
+**Please open all issues with this template on the main [Foundation for Sites](https://github.com/zurb/foundation-sites/issues) repo.**
 
-The Property Information Extractor is a data downloading tool based on Chris Whong's [plutoplus](https://github.com/chriswhong/plutoplus).  The Property Data Downloader provides a simple and intuitive interface to help people access property data from the [Western Pennsylvania Regional Data Center](http://www.wprdc.org) within an Allegheny County municipality or City of Pittsburgh Neighborhood of their choosing.
+This is the basic starter project for [Foundation for Sites 6](http://foundation.zurb.com/sites). It includes a Sass compiler and a starter HTML file for you.
 
-Feedback from participants at the Regional Data Center's [property data user group meeting](http://www.wprdc.org/news/property-data-user-group-meeting-recap/) in March, 2016 was the impetus for our adopting this tool originally built for New York parcel data. Participants wanted to be able to download assessment and other data by neighborhood. Working with large datasets poses a problem for many users. The Allegheny County assessment database contains over 550,000 rows and posed a barrier to widespread data use. 
+## Installation
 
-The Property Information Extractor allows users to quickly download data in several formats, and also allows the data to be directly open in CartoDB, a popular Web-mapping tool. Our road map for this tool involves adding aditional datasets and geographies. In partnership with the Carnegie Library of Pittsburgh, the Regional Data Center will offer training to data users in a number of Web mapping software packages as part of it's Data 101 training series beginning in May, 2016.  
+To use this template, your computer needs:
+
+- [NodeJS](https://nodejs.org/en/) (0.12 or greater)
+- [Git](https://git-scm.com/)
+
+This template can be installed with the Foundation CLI, or downloaded and set up manually.
+
+### Using the CLI
+
+Install the Foundation CLI with this command:
+
+```bash
+npm install foundation-cli --global
+```
+
+Use this command to set up a blank Foundation for Sites project with this template:
+
+```bash
+foundation new --framework sites --template basic
+```
+
+The CLI will prompt you to give your project a name. The template will be downloaded into a folder with this name.
+
+### Manual Setup
+
+To manually set up the template, first download it with Git:
+
+```bash
+git clone https://github.com/zurb/foundation-sites-template projectname
+```
+
+Then open the folder in your command line, and install the needed dependencies:
+
+```bash
+cd projectname
+npm install
+bower install
+```
+
+Finally, run `npm start` to run the Sass compiler. It will re-run every time you save a Sass file.

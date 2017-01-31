@@ -98,42 +98,90 @@ cartodb.createLayer(map, layerUrl)
     });
 
 //populate fields list
-$.getJSON('data/fields.json', function (data) {
+$.getJSON('data/resources.json', function (resources) {
 
-    console.log(data.length);
-    data.forEach(function (field) {
-        var listItem = '<li id = "' + field.name + '" class="list-group-item">'
-            + field.title
-            + '<span class="glyphicon glyphicon-info-sign icon-right" aria-hidden="true"></span></li>'
+    $.getJSON('data/fields2.json', function (data) {
 
-        $('.fieldList').append(listItem);
-        $('#' + field.name).data("description", field.description).data("resource", field.resource);
+        for (var resourceId in data) {
+            if (data.hasOwnProperty(resourceId)) {
+                var $resourceList = $('<ul>', {id: "r" + resourceId, class: "resource-list"});
+                data[resourceId].forEach(function (field) {
+                    // Make list item for field
+                    var fieldId = field.name + '__' + resources[resourceId].name;
 
+                    var listItem = '<li id="' + fieldId + '" class="list-group-item field-selection-item">'
+                        + field.title
+                        + '<span class="glyphicon glyphicon-info-sign icon-right" aria-hidden="true"></span></li>';
+
+                    // Add to it's resources list
+                    $resourceList.append(listItem);
+
+                    $('#' + fieldId).data("field", field.name)
+                        .data("description", field.description)
+                        .data("resource", resourceId);
+                });
+            }
+
+            var $container = $('<div>', {class: "column column-block"});
+            var $listContainer = $('<div>', {class: "resource-list-container"});
+
+
+            if (resources.hasOwnProperty(resourceId)) {
+                $container.append('<h4 class="text-center">' + resources[resourceId].title + '</h4>')
+            }
+            $listContainer.append($resourceList);
+            $container.append($listContainer);
+            $('#fields-area').append($container);
+
+
+        }
+
+        for (var rID in data) {
+            if (data.hasOwnProperty(rID)) {
+                data[rID].forEach(function (field) {
+                    // Make list item for field
+                    var fieldId = field.name + '__' + resources[rID].name;
+
+                    $('#' + fieldId).data("field", field.name)
+                        .data("description", field.description)
+                        .data("resource", rID);
+
+                    console.log($('#' + fieldId).data())
+                });
+            }
+        }
+
+        //listener for hovers
+        $('.icon-right').hover(showDescription, hideDescription);
+
+        function showDescription() {
+            var $rev = $('#fields-reveal')
+            var reveal_y = parseInt($rev.css('top'), 10),
+                reveal_x = parseInt($rev.css('margin-left'), 10);
+
+            console.log(reveal_y, reveal_x);
+            console.log('DESCRIBE');
+            var o = $(this).offset();
+
+            var data = $(this).parent().data('description');
+            console.log(o);
+            console.log(data);
+            $('#infoWindow')
+                .html(data)
+                .css('top', o.top - reveal_y - 10)
+                .css('left', o.left - reveal_x + 30)
+                .fadeIn(150);
+        }
+
+        function hideDescription() {
+            $('#infoWindow')
+                .fadeOut(150);
+        }
+
+
+        //custom functionality for checkboxes
+        initCheckboxes();
     });
-
-    //listener for hovers
-    $('.icon-right').hover(showDescription, hideDescription);
-
-    function showDescription() {
-        var o = $(this).offset();
-
-        var data = $(this).parent().data('description');
-
-        $('#infoWindow')
-            .html(data)
-            .css('top', o.top - 10)
-            .css('left', o.left + 30)
-            .fadeIn(150);
-    }
-
-    function hideDescription() {
-        $('#infoWindow')
-            .fadeOut(150);
-    }
-
-
-    //custom functionality for checkboxes
-    initCheckboxes();
 });
 
 //$('#splashModal').modal('show');
@@ -265,9 +313,6 @@ $('.download').click(function () {
         console.log(url);
         window.open(url);
     }
-
-
-
 });
 
 //functions
@@ -342,7 +387,7 @@ function makeSqlPolygon(coords) {
 
 function initCheckboxes() {
     //sweet checkbox list from http://bootsnipp.com/snippets/featured/checked-list-group
-    $('.list-group.checked-list-box .list-group-item').each(function () {
+    $('.field-selection-item').each(function () {
 
         // Settings
         var $widget = $(this),
@@ -446,5 +491,4 @@ $(document).ready(function () {
             }
         }
     });
-
 });
