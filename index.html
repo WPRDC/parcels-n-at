@@ -75,10 +75,10 @@
                     <input type="radio" id="muni-opt" name="area" value="municipality">
                     <label class="btn" for="muni-opt"> Municipality </label>
                     <br>
-                    <input type="radio" id="hood-opt" name="area" value="neighborhood" >
+                    <input type="radio" id="hood-opt" name="area" value="neighborhood">
                     <label class="btn" for="hood-opt"> Neighborhood </label>
                     <br>
-                    <input type="radio" id="polygon-opt" name="area" value="polygon" >
+                    <input type="radio" id="polygon-opt" name="area" value="polygon">
                     <label class="btn" for="polygon-opt">Draw Your Region </label>
                 </fieldset>
             </div>
@@ -90,8 +90,15 @@
                 <a href="#" id="housing-alues-btn" class="button radius">Property Values</a>
                 <a href="#" id="sales-btn" class="button radius">Radius Button</a>
             </div>
-
+            <hr>
             <!-- Download Buttons -->
+            <h3>3. Download!</h3>
+            <div id="download-select">
+                <a href="#" id="geojson" class="button radius download">geoJson</a>
+                <a href="#" id="csv" class="button radius download">CSV</a>
+                <a href="#" id="shp" class="button radius download">Shapefile</a>
+                <a href="#" id="cartodb" class="button radius download">Open in CartoDB</a>
+            </div>
         </div>
 
 
@@ -107,8 +114,9 @@
 
 <!-- Field Selection Modal -->
 <div class="large reveal" id="fields-reveal" data-reveal>
-    <h1>Select Your Fields</h1>
-    <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+    <h2 class="text-center" style="margin-bottom: 0;">Select Your Fields</h2>
+    <p class="text-center">Select as many fields from as many datasets as you want!</p>
+    <hr>
     <button class="close-button" data-close aria-label="Close modal" type="button">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -116,7 +124,6 @@
 
     <div id="infoWindow"></div>
 </div>
-
 
 
 <!--TODO: update jquery version-->
@@ -131,7 +138,7 @@
 <!-- Mapping Libraries -->
 <script src="js/vendor/cartodb.js"></script>
 <script src="js/leaflet.draw.js"></script>
-
+<script src="js/vendor/handlebars-v4.0.5.js"></script>
 
 <script src="js/script.js"></script>
 </body>

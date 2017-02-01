@@ -104,7 +104,7 @@ $.getJSON('data/resources.json', function (resources) {
 
         for (var resourceId in data) {
             if (data.hasOwnProperty(resourceId)) {
-                var $resourceList = $('<ul>', {id: "r" + resourceId, class: "resource-list"});
+                var $resourceList = $('<ul>', {id: "r" + resourceId, class: "fieldList"});
                 data[resourceId].forEach(function (field) {
                     // Make list item for field
                     var fieldId = field.name + '__' + resources[resourceId].name;
@@ -136,6 +136,7 @@ $.getJSON('data/resources.json', function (resources) {
 
         }
 
+        // Add data to all to the available fields
         for (var rID in data) {
             if (data.hasOwnProperty(rID)) {
                 data[rID].forEach(function (field) {
@@ -143,6 +144,7 @@ $.getJSON('data/resources.json', function (resources) {
                     var fieldId = field.name + '__' + resources[rID].name;
 
                     $('#' + fieldId).data("field", field.name)
+                        .data("field", field.name)
                         .data("description", field.description)
                         .data("resource", rID);
 
@@ -461,7 +463,7 @@ function listChecked() {
     var checkedItems = [];
     $(".fieldList li.active").each(function (idx, li) {
         checkedItems.push({
-            'f': $(li).attr('id'),
+            'f': $(li).data('field'),
             'r': $(li).data('resource')
         });
         console.log(checkedItems);
