@@ -69,17 +69,19 @@
             <h3 class="">1. Select Your Area:</h3>
             <div id="area-select">
                 <fieldset class="btn-group">
-                    <input type="radio" id="currentview-opt" name="area" value="currentView" checked="checked">
-                    <label class="btn" for="currentview-opt"> Current View </label>
+                    <!--<input type="radio" id="currentview-opt" name="area" value="currentView" checked="checked">-->
+                    <!--<label class="btn" for="currentview-opt"> Current View </label>-->
+                    <!--<br>-->
+                    <input type="radio" id="polygon-opt" name="area" value="polygon" checked="checked">
+                    <label class="btn" for="polygon-opt">Draw Your Region </label>
                     <br>
                     <input type="radio" id="muni-opt" name="area" value="municipality">
                     <label class="btn" for="muni-opt"> Municipality </label>
                     <br>
                     <input type="radio" id="hood-opt" name="area" value="neighborhood">
-                    <label class="btn" for="hood-opt"> Neighborhood </label>
-                    <br>
-                    <input type="radio" id="polygon-opt" name="area" value="polygon">
-                    <label class="btn" for="polygon-opt">Draw Your Region </label>
+                    <label class="btn" for="hood-opt"> City of Pittsburgh Neighborhood </label>
+
+
                 </fieldset>
             </div>
             <hr>
@@ -121,6 +123,11 @@
         <span aria-hidden="true">&times;</span>
     </button>
     <div id="fields-area" class="row medium-up-2 large-up-3"></div>
+    <div class="row">
+        <div class="small-6 small-centered text-center columns">
+            <a  href="#" class="button success round" data-close>Done</a>
+        </div>
+    </div>
 
     <div id="infoWindow"></div>
 </div>

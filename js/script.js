@@ -49,7 +49,7 @@ var options = {
 
 var drawControl = new L.Control.Draw(options);
 map.addControl(drawControl);
-$('.leaflet-draw-toolbar').hide();
+// $('.leaflet-draw-toolbar').hide();
 
 var customPolygon;
 map.on('draw:created', function (e) {
