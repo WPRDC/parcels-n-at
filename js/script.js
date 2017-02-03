@@ -72,7 +72,7 @@ map.on('draw:created', function (e) {
 });
 
 map.on('draw:drawstart', function (e) {
-    console.log('start');
+    console.log('draw:start');
     if (drawnLayer) {
         map.removeLayer(drawnLayer);
     }
@@ -147,8 +147,6 @@ $.getJSON('data/resources.json', function (resources) {
                         .data("field", field.name)
                         .data("description", field.description)
                         .data("resource", rID);
-
-                    console.log($('#' + fieldId).data())
                 });
             }
         }
@@ -161,13 +159,9 @@ $.getJSON('data/resources.json', function (resources) {
             var reveal_y = parseInt($rev.css('top'), 10),
                 reveal_x = parseInt($rev.css('margin-left'), 10);
 
-            console.log(reveal_y, reveal_x);
-            console.log('DESCRIBE');
             var o = $(this).offset();
 
             var data = $(this).parent().data('description');
-            console.log(o);
-            console.log(data);
             $('#infoWindow')
                 .html(data)
                 .css('top', o.top - reveal_y - 10)
@@ -247,12 +241,9 @@ $('.download').click(function () {
     data.intersects = customPolygon;
     data.type = $(this).attr('id');
     var checked = listChecked();
-    console.log(checked);
 
     //generate comma-separated list of fields
     data.fields = JSON.stringify(checked);
-    console.log(data.fields);
-
 
     if (areaType == 'currentView') {
         var bboxString = bbox._southWest.lng + ','
@@ -301,8 +292,6 @@ $('.download').click(function () {
     var queryTemplate = api_url + "?shape={{{intersects}}}&fields={{{fields}}}&type={{{type}}}";
     var buildquery = Handlebars.compile(queryTemplate);
     var url = buildquery(data);
-
-    console.log("Downloading " + url);
 
     //http://oneclick.carto.com/?file={{YOUR FILE URL}}&provider={{PROVIDER NAME}}&logo={{YOUR LOGO URL}}
     if (data.cartodb) {
