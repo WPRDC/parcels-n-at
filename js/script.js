@@ -1,4 +1,4 @@
-var areaType = 'currentView';
+var areaType = 'polygon';
 var drawnLayer;
 var backdrop, muniLayer;
 var nPolygon;
@@ -92,7 +92,6 @@ cartodb.createLayer(map, layerUrl)
         //hoodLayer.setInteractivity("cartodb_id, hood");
         muniLayer.hide();  //hide municipality polygons
         hoodLayer.hide();
-        console.log(hoodLayer);
         muniLayer.on('featureClick', processMuni);
         hoodLayer.on('featureClick', processNeighborhood);
     });
@@ -241,18 +240,9 @@ $('.download').click(function () {
     data.intersects = customPolygon;
     data.type = $(this).attr('id');
     var checked = listChecked();
-
+    console.log(areaType);
     //generate comma-separated list of fields
     data.fields = JSON.stringify(checked);
-
-    if (areaType == 'currentView') {
-        var bboxString = bbox._southWest.lng + ','
-            + bbox._southWest.lat + ','
-            + bbox._northEast.lng + ','
-            + bbox._northEast.lat;
-
-        data.intersects = 'ST_MakeEnvelope(' + bboxString + ',4326)';
-    }
 
     if (areaType == 'polygon') {
         if (customPolygon == undefined) {
@@ -328,7 +318,8 @@ function processMuni(e, latlng, pos, data, layer) {
             selectLayer.addData(data);
             //setup SQL statement for intersection
             mPolygon = "(SELECT the_geom FROM allegheny_county_municipal_boundaries WHERE f0_label = '" + nid + "')";
-        })
+        });
+    $('.download').removeAttr('disabled');
 }
 
 
@@ -352,6 +343,7 @@ function processNeighborhood(e, latlng, pos, data, layer) {
             //setup SQL statement for intersection
             nPolygon = "(SELECT the_geom FROM pittsburgh_neighborhoods WHERE hood = '" + nid + "')";
         })
+    $('.download').removeAttr('disabled');
 }
 
 //turns an array of latLngs into an ST_POLYGONFROMTEXT
@@ -483,3 +475,9 @@ $(document).ready(function () {
         }
     });
 });
+
+function switchDownloadButtons(value) {
+    if (value){
+
+    }
+}
