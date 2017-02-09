@@ -433,61 +433,6 @@
   ],
   "5bbe6c55-bce6-4edb-9d04-68edeb6bf7b1": [
     {
-      "name": "PARID",
-      "title": "Parcel Identification Number",
-      "description": "A 16 character unique identifier for the parcel."
-    },
-    {
-      "name": "PROPERTYHOUSENUM",
-      "title": "Property Location House Number",
-      "description": "House Number for the  physical location of property; may be zero or blank."
-    },
-    {
-      "name": "PROPERTYFRACTION",
-      "title": "Property Location House Number Fraction",
-      "description": "Continued House Number information for the  physical location of property; such as 1/2, the house number ending range, or a letter. "
-    },
-    {
-      "name": "PROPERTYADDRESSDIR",
-      "title": "Property Location Street Directional",
-      "description": "Directional indicator of the street name for the physical location of the property."
-    },
-    {
-      "name": "PROPERTYADDRESSSTREET",
-      "title": "Property Location Street Name",
-      "description": "Street name for the physical location of the property."
-    },
-    {
-      "name": "PROPERTYADDRESSSUF",
-      "title": "Property Location Street Type",
-      "description": "Suffix of the street name for the physical location of the property."
-    },
-    {
-      "name": "PROPERTYADDRESSUNITDESC",
-      "title": "Property Location Unit Description",
-      "description": "Unit description for the physical location of the property."
-    },
-    {
-      "name": "PROPERTYUNITNO",
-      "title": "Property Location Unit Number",
-      "description": "Unit number for the physical location of the property."
-    },
-    {
-      "name": "PROPERTYCITY",
-      "title": "Property Location City Name",
-      "description": "City where the property is physically located."
-    },
-    {
-      "name": "PROPERTYSTATE",
-      "title": "Property Location State Name",
-      "description": "State where the property is physically located."
-    },
-    {
-      "name": "PROPERTYZIP",
-      "title": "Property Location Zip code, first 5 digits",
-      "description": "Zip Code where the property is physically located."
-    },
-    {
       "name": "SCHOOLCODE",
       "title": "School District Code",
       "description": "School district number associated with specified parcel."
@@ -551,6 +496,78 @@
       "name": "INSTRTYPDESC",
       "title": "Instrument Description",
       "description": "A description of the type of document used to record the real property transfer."
+    }
+  ],
+  "4e5374be-1a88-47f7-afee-6a79317019b4": [
+    {
+      "name": "INSPECTION_DATE",
+      "title": "Inspection Date",
+      "description": "Date of PLI Inspection"
+    },
+    {
+      "name": "CASE_NUMBER",
+      "title": "Case Number",
+      "description": "PLI Case Number"
+    },
+    {
+      "name": "INSPECTION_RESULT",
+      "title": "Inspection Result",
+      "description": "The result of the PLI inspection"
+    },
+    {
+      "name": "VIOLATION",
+      "title": "Violation",
+      "description": "Violtion found during inspection"
+    },
+    {
+      "name": "LOCATION",
+      "title": "Location",
+      "description": "Location of property of the violation"
+    },
+    {
+      "name": "CORRECTIVE_ACTION",
+      "title": "Corrective Action",
+      "description": "Correction action prescribed by inspector"
+    },
+    {
+      "name": "NEIGHBORHOOD",
+      "title": "Neighborhood",
+      "description": "City of Pittsburgh neighborhood"
+    },
+    {
+      "name": "COUNCIL_DISTRICT",
+      "title": "Council District",
+      "description": "City of Pittsburgh City Council district"
+    },
+    {
+      "name": "WARD",
+      "title": "Ward",
+      "description": "City of Pittsburgh ward"
+    },
+    {
+      "name": "TRACT",
+      "title": "Tract",
+      "description": "City of Pittsburgh tract"
+    },
+    {
+      "name": "PUBLIC_WORKS_DIVISION",
+      "title": "Public Works Division",
+      "description": "City of Pittsburgh DPW division"
+    },
+    {
+      "name": "PLI_DIVISION",
+      "title": "PLI Division",
+      "description": "City of Pittsburgh PLI division"
+    },
+    {
+      "name": "POLICE_ZONE",
+      "title": "Police Zone",
+      "description": "City of Pittsburgh City Police zone"
+    },
+    {
+      "name": "FIRE_ZONE",
+      "title": "Fire Zone",
+      "description": "City of Pittsburgh City Fire zone"
     }
   ]
 }

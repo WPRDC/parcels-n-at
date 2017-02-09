@@ -6,5 +6,9 @@
   "5bbe6c55-bce6-4edb-9d04-68edeb6bf7b1": {
     "title": "Property Sales Transactions",
     "name": "sales"
+  },
+  "4e5374be-1a88-47f7-afee-6a79317019b4": {
+    "title": "PLI Violations",
+    "name": "bldgvio"
   }
 }
