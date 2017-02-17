@@ -61,7 +61,7 @@ input[type="radio"] {
   margin: 0;
 }
 
-input[type="radio"]{
+input[type="radio"] {
   vertical-align: baseline;
 }
 
@@ -70,16 +70,15 @@ input[type="radio"]{
 }
 
 .btn-group {
-  label{
+  label {
     color: $white;
     font-size: 110%;
   }
 }
 
-#area-select{
+#area-select {
   margin-left: 2rem;
 }
-
 
 .glyphicon-unchecked, .glyphicon-check {
   cursor: pointer;
@@ -103,9 +102,11 @@ input[type="radio"]{
   left: 0;
   right: 0;
 }
+
 .list-group {
   font: 300 15px/22px Lato;
 }
+
 .list-group > li {
   margin-bottom: 10px;
 }
@@ -123,6 +124,7 @@ input[type="radio"]{
   margin-top: -3px;
   background-size: 13px;
 }
+
 .icon-right:hover {
   opacity: .8;
 }
@@ -131,10 +133,11 @@ input[type="radio"]{
   display: none;
 }
 
-.resource-list-container{
-  height:200px;
+.resource-list-container {
+  height: 200px;
   overflow-y: scroll;
 }
+
 .fieldList {
   list-style: none;
 
@@ -143,10 +146,11 @@ input[type="radio"]{
 .shadow-top {
   height: 40px;
   position: absolute;
-  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%,rgba(255, 255, 255, 0) 100%);
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
   z-index: 2;
   pointer-events: none;
 }
+
 .shadow-bottom {
   height: 40px;
   position: absolute;
@@ -167,10 +171,11 @@ input[type="radio"]{
   border-radius: 4px;
   z-index: 1000;
   width: 200px;
-  display:none;
+  display: none;
 }
+
 #infoWindow:before {
-  content:"";
+  content: "";
   position: absolute;
   width: 0;
   height: 0;
@@ -180,3 +185,46 @@ input[type="radio"]{
   top: 12px;
 }
 
+.top-button {
+  a {
+    font-weight: 700;
+    background: #0e0e0e;
+  }
+}
+
+#footer {
+  p {
+    color: $medium-gray;
+    text-align: center;
+    margin-bottom: 0;
+    margin-top: .5rem;
+  }
+}
+
+.title {
+  color: $medium-gray;
+  font-size: 1.75rem;
+}
+
+.top-bar-left {
+  display: table;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.select-all {
+  a {
+    margin-bottom: 0;
+  }
+}
+
+#fields-notes li {
+  display: inline;
+  &:after {
+    content: ", "
+  }
+  &:last-child:after {
+    content: "";
+  }
+}

@@ -3,7 +3,7 @@ var drawnLayer;
 var backdrop, muniLayer;
 var nPolygon;
 var mPolygon;
-
+var selectedFields = [];
 var api_url = "https://tools.wprdc.org/property-api/data_within/";
 
 /**************************************
@@ -127,9 +127,11 @@ $.getJSON('data/resources.json', function (resources) {
 
             if (resources.hasOwnProperty(resourceId)) {
                 $container.append('<h4 class="text-center">' + resources[resourceId].title + '</h4>')
+
             }
             $listContainer.append($resourceList);
             $container.append($listContainer);
+            $container.append('<p class="select-all text-center"><a class="button tiny secondary">Toggle All</a></p>')
             $('#fields-area').append($container);
 
 
@@ -182,9 +184,17 @@ $.getJSON('data/resources.json', function (resources) {
 //$('#splashModal').modal('show');
 
 //listeners
-$('#selectAll').click(function () {
-    $(".fieldList li").click();
+$('#fields-reveal').on('click', '.select-all', function () {
+    console.log('selected all');
+    $(this).parent().find('li').click();
     listChecked();
+});
+
+$('#fields-reveal').on('click', '#select-done', function () {
+    console.log('selection confirmed');
+    $(this).parent().find('li').click();
+    var items = listChecked();
+    $('#selection-msg').text(items.length + " fields selected.")
 });
 
 //radio buttons
@@ -233,23 +243,24 @@ var flush_selections = function () {
 //runs when any of the download buttons is clicked
 $('.download').click(function () {
 
-    var data = {};
+    var qry_data = {};
 
     //get current view, download type, and checked fields
     var bbox = map.getBounds();
-    data.intersects = customPolygon;
-    data.type = $(this).attr('id');
+    qry_data.intersects = customPolygon;
+    qry_data.type = $(this).attr('id');
     var checked = listChecked();
     console.log(areaType);
+    console.log('shape', mPolygon, nPolygon);
     //generate comma-separated list of fields
-    data.fields = JSON.stringify(checked);
+    qry_data.fields = JSON.stringify(checked);
 
     if (areaType == 'polygon') {
         if (customPolygon == undefined) {
             alert("Don't forget to draw your area on the map!");
             return;
         }
-        data.intersects = customPolygon;
+        qry_data.intersects = customPolygon;
     }
 
 
@@ -259,7 +270,7 @@ $('.download').click(function () {
             return;
         }
 
-        data.intersects = mPolygon;
+        qry_data.intersects = mPolygon;
     }
 
     if (areaType == 'neighborhood') {
@@ -267,12 +278,12 @@ $('.download').click(function () {
             alert("Don't forget to select your neighborhood from the map!");
             return;
         }
-        data.intersects = nPolygon;
+        qry_data.intersects = nPolygon;
     }
 
-    if (data.type == 'cartodb') {
-        data.type = 'geojson';
-        data.cartodb = true;
+    if (qry_data.type == 'cartodb') {
+        qry_data.type = 'geojson';
+        qry_data.cartodb = true;
     }
 
     /********************************************************
@@ -281,19 +292,64 @@ $('.download').click(function () {
         // Generate query for property-api
     var queryTemplate = api_url + "?shape={{{intersects}}}&fields={{{fields}}}&type={{{type}}}";
     var buildquery = Handlebars.compile(queryTemplate);
-    var url = buildquery(data);
+    var url = buildquery(qry_data);
 
-    //http://oneclick.carto.com/?file={{YOUR FILE URL}}&provider={{PROVIDER NAME}}&logo={{YOUR LOGO URL}}
-    if (data.cartodb) {
-        url = encodeURIComponent(url);
-        url = 'https://oneclick.carto.com/?file=' + url;
-        console.log(url);
-        window.open(url);
-    }
-    else {
-        console.log(url);
-        window.open(url);
-    }
+    // Start collection job
+    console.log(url);
+    $.get(url)
+        .done(function (data) {
+            // poll for progress
+            var job_id = data.job_id;
+            var task = 'Starting';
+            var prog = 0;
+
+            // Pop up progress modal
+            $progModal = $("#prog-modal");
+            setStatusDisplay('reset');
+            $progModal.foundation('open');
+
+            var progress_poll = setInterval(function () {
+                $.ajax({
+                    url: "http://tools.wprdc.org/property-api/progress/",
+                    data: {job: job_id},
+                }).done(function (data) {
+                    prog = data.percent;
+                    task = data.task;
+                    console.log(data);
+
+                    // Update progress Modal
+                    if (prog < 100) {
+                        $('#prog-text').html(task);
+                    }
+                    else {
+                        clearInterval(progress_poll);
+                        dl_url = "http://tools.wprdc.org/property-api/get_collected_data/?job=" + job_id + "&type=" + qry_data.type;
+                        $('#dl-text').html("<a href='" + dl_url + "'>Click Here to Download</a>");
+                        setStatusDisplay('downloaded');
+                    }
+
+                }).fail(function () {
+                    clearInterval(progress_poll);
+                });
+            }, 500)
+        })
+        .fail(function (data) {
+            console.log('failure')
+        })
+        .always(function (data) {
+            console.log(data)
+        });
+
+
+    // if (data.cartodb) {
+    //     //http://oneclick.carto.com/?file={{YOUR FILE URL}}&provider={{PROVIDER NAME}}&logo={{YOUR LOGO URL}}
+    //     url = encodeURIComponent(url);
+    //     url = 'https://oneclick.carto.com/?file=' + url;
+    //     window.open(url);
+    // }
+    // else {
+    //     window.open(url);
+    // }
 });
 
 //functions
@@ -317,7 +373,7 @@ function processMuni(e, latlng, pos, data, layer) {
             console.log(data);
             selectLayer.addData(data);
             //setup SQL statement for intersection
-            mPolygon = "(SELECT the_geom FROM allegheny_county_municipal_boundaries WHERE f0_label = '" + nid + "')";
+            mPolygon = "(SELECT geom FROM allegheny_county_municipal_boundaries WHERE label = '" + nid + "')";
         });
     $('.download').removeAttr('disabled');
 }
@@ -341,7 +397,7 @@ function processNeighborhood(e, latlng, pos, data, layer) {
             console.log(data);
             selectLayer.addData(data);
             //setup SQL statement for intersection
-            nPolygon = "(SELECT the_geom FROM pittsburgh_neighborhoods WHERE hood = '" + nid + "')";
+            nPolygon = "(SELECT geom FROM pittsburgh_neighborhoods WHERE hood = '" + nid + "')";
         })
     $('.download').removeAttr('disabled');
 }
@@ -393,7 +449,7 @@ function initCheckboxes() {
         $widget.on('click', function () {
             $checkbox.prop('checked', !$checkbox.is(':checked'));
             $checkbox.triggerHandler('change');
-            updateDisplay();
+            // updateDisplay();
         });
         $checkbox.on('change', function () {
             updateDisplay();
@@ -404,7 +460,6 @@ function initCheckboxes() {
         function updateDisplay() {
             var isChecked = $checkbox.is(':checked');
 
-
             // Set the button's state
             $widget.data('state', (isChecked) ? "on" : "off");
 
@@ -413,12 +468,24 @@ function initCheckboxes() {
                 .removeClass()
                 .addClass('state-icon ' + settings[$widget.data('state')].icon);
 
+            $notes = $('#fields-notes');
+
             // Update the button's color
             if (isChecked) {
                 $widget.addClass(style + color + ' active');
+                selectedFields.push($widget.text());
+                console.log(selectedFields);
             } else {
                 $widget.removeClass(style + color + ' active');
+                selectedFields = removeA(selectedFields, $widget.text());
+                console.log(selectedFields);
             }
+            if(selectedFields.length){
+                $notes.html("<li>" + selectedFields.join("</li><li>") + "</li>")
+            } else{
+                $notes.html("<i>nothing selected</i>")
+            }
+
         }
 
         // Initialization
@@ -476,8 +543,33 @@ $(document).ready(function () {
     });
 });
 
-function switchDownloadButtons(value) {
-    if (value){
 
+function setStatusDisplay(status) {
+    var $header = $('#prog-header');
+    var $text = $('#prog-text');
+    var $dl = $('#dl-text');
+    if (status == 'reset') {
+        $header.text("Your Data is On It's Way!");
+        $text.text("Sending Request to Server...").show();
+        $dl.hide()
+    } else if (status == 'downloaded') {
+        $header.text("It's Here!");
+        $text.hide();
+        $dl.show();
     }
+}
+
+$('#dl-text').on('click', function () {
+    $("#prog-modal").foundation('close');
+});
+
+function removeA(arr) {
+    var what, a = arguments, L = a.length, ax;
+    while (L > 1 && arr.length) {
+        what = a[--L];
+        while ((ax= arr.indexOf(what)) !== -1) {
+            arr.splice(ax, 1);
+        }
+    }
+    return arr;
 }
