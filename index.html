@@ -11,7 +11,9 @@
     <!-- Fonts and Icons -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet">
 
     <!-- Map Styles -->
     <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/themes/css/cartodb.css"/>
@@ -24,10 +26,9 @@
 
 <body>
 <!-- Description Popup -->
-<div id="flex-town">
+<div id="flex-town" class=".flex-container">
     <!-- Header -->
-    <div data-sticky-container id="top-title-bar">
-        <!-- For Mobile -->
+    <div data-sticky-container id="top-title-bar" class="flex-item">
         <div class="title-bar" data-responsive-toggle="nav-menu" data-hide-for="medium"
              data-options="marginTop:0;" style="width:100%" data-top-anchor="1">
             <button class="menu-icon" type="button" data-toggle></button>
@@ -43,36 +44,33 @@
         <div class="top-bar" id="nav-menu" data-options="marginTop:0;" style="width:100%"
              data-top-anchor="1">
             <div class="top-bar-left">
-                <a href="https://www.wprdc.org"> <img
-                        src="https://www.wprdc.org/wp-content/themes/wprdc/assets/img/small-logo.png"> </a>
-                <span class="title">Parcels n'at</span>
+                <img style="vertical-align:middle" src="https://www.wprdc.org/wp-content/themes/wprdc/assets/img/small-logo.png">
+                <span style="vertical-align:middle" class="title">&nbsp; Parcels n'at</span>
             </div>
             <div class="top-bar-right">
                 <ul class="dropdown menu" data-dropdown-menu>
-                    <li class="top-button"><a href="#about">About</a></li>
+                    <li class="top-button"><a data-open="about-reveal">About</a></li>
                 </ul>
             </div>
         </div>
     </div>
 
     <!-- The Stuff -->
-    <div id="main-content-container" class="expanded row" data-equalizer>
+    <div id="main-content-container" class="expanded row flex-item" data-equalizer>
         <!-- Map -->
-        <div id="map" class="medium-8 large-9 columns" data-equalizer-watch>
+        <div id="map" class="medium-7 large-8 columns" data-equalizer-watch>
             <button type="button" class="infoArrow btn btn-primary btn-arrow-right">
             </button>
         </div>
 
         <!-- Options -->
-        <div id="options-pane" class="medium-4 large-3 columns" data-equalizer-watch>
+        <div id="options-pane" class="medium-5 large-4 columns" data-equalizer-watch>
 
             <!-- Area Selection -->
-            <h3 class="">1. Select Your Area:</h3>
+            <h3 class="step"><span class="step-number">1</span><span class="step-text">Select Your Area:</span> </h3>
             <div id="area-select">
                 <fieldset class="btn-group">
-                    <!--<input type="radio" id="currentview-opt" name="area" value="currentView" checked="checked">-->
-                    <!--<label class="btn" for="currentview-opt"> Current View </label>-->
-                    <!--<br>-->
+
 
                     <input type="radio" id="polygon-opt" name="area" value="polygon" checked="checked">
                     <label class="btn" for="polygon-opt">Draw Your Region </label>
@@ -88,7 +86,7 @@
             </div>
             <hr>
             <!-- Fields Selection -->
-            <h3>2. Select Your Fields</h3>
+            <h3 class="step"><span class="step-number">2</span><span class="step-text">Select Your Fields</span></h3>
             <div id="field-select">
                 <a href="#" id="customfields-btn" class="button radius" data-open="fields-reveal">Custom</a>
                 <!--<a href="#" id="housing-alues-btn" class="button radius">Property Values</a>-->
@@ -97,24 +95,41 @@
             </div>
             <hr>
             <!-- Download Buttons -->
-            <h3>3. Download!</h3>
-            <div id="download-select">
+            <h3 class="step"><span class="step-number">3</span><span class="step-text">Download!</span></h3>
+            <div id="download-select" class="expanded button-group">
                 <a href="#" id="geojson" class="button radius download" disabled>GeoJSON</a>
                 <a href="#" id="csv" class="button radius download" disabled>CSV</a>
                 <!--<a href="#" id="shp" class="button radius download" disabled >Shapefile</a>-->
                 <a href="#" id="cartodb" class="button radius download" disabled>Open in Carto</a>
             </div>
         </div>
-
-
     </div>
 
-    <!-- Footer -->
-    <div id="footer">
+    <div id="footer" class="flex-item">
         <p>&copy; 2017 University of Pittsburgh, WPRDC</p>
     </div>
+</div>
 
+<div id="infoWindow"></div>
+<!-- About Modal -->
+<div class="reveal" id="about-reveal" data-reveal>
+    <h2 class="text-center" style="margin-bottom: 0;">About</h2>
+    <p>You can use this tool to filter and download Open Data hosted on the <a href="https://www.wprdc.org">WRPDC</a>.
 
+    <ol class="wrap-list">
+        <li>Select your region of interest. You can currently select a municipality, and Pittsburgh neighborhood, or draw you own.</li>
+        <li>Select the data you'd like to pull for the parcels in your selected region.</li>
+        <li>Download the data in one of the various formats we provide.</li>
+    </ol>
+
+    <p></p>
+
+    <p>This project is based on Chris Whong's <a href="http://chriswhong.github.io/plutoplus/"> NYC Pluto data
+        Downloader</a>. You can read his write-up on his project at <a
+            href="http://www.chriswhong.com/">chriswhong.com</a>. Support open Data!</p>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
 
 <!-- Field Selection Modal -->
@@ -122,27 +137,31 @@
     <h2 class="text-center" style="margin-bottom: 0;">Select Your Fields</h2>
     <p class="text-center">Select as many fields from as many datasets as you want!</p>
     <hr>
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-        <span aria-hidden="true">&times;</span>
-    </button>
+
     <div id="fields-area" class="row medium-up-2 large-up-3"></div>
+    <hr>
+
     <div class="row">
-        <div class="small-8 small-centered columns" >
+        <div class="small-8 small-centered columns">
             <h5>Fields Selected:</h5>
             <div style="overflow: auto; max-height: 6rem;">
-                <ul id="fields-notes"><li><i>nothing selected</i></li></ul>
+                <ul id="fields-notes">
+                    <li><i>nothing selected</i></li>
+                </ul>
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="small-8 small-centered columns">
 
-            <a href="#" class="button success expanded" id="select-done" data-close>Use These Fields</a>
+            <a href="#" class="button success expanded submit-btn" id="select-done" data-close>Use These Fields</a>
         </div>
     </div>
-
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <span aria-hidden="true">&times;</span>
+    </button>
 </div>
-
 
 <!-- Progress Modal -->
 <div class="reveal" id="prog-modal" data-reveal>

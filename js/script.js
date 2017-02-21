@@ -86,7 +86,6 @@ cartodb.createLayer(map, layerUrl)
     .on('done', function (layer) {
         backdrop = layer.getSubLayer(0);
         backdrop.setInteraction(false);
-        //TODO: build array of selction layers based off JSON file
         muniLayer = layer.getSubLayer(1);
         hoodLayer = layer.getSubLayer(2);
         //hoodLayer.setInteractivity("cartodb_id, hood");
@@ -99,14 +98,15 @@ cartodb.createLayer(map, layerUrl)
 //populate fields list
 $.getJSON('data/resources.json', function (resources) {
 
-    $.getJSON('data/fields2.json', function (data) {
+    $.getJSON('data/fields2.json', function (fieldsData) {
 
-        for (var resourceId in data) {
-            if (data.hasOwnProperty(resourceId)) {
+        for (var resourceId in fieldsData) {
+            if (fieldsData.hasOwnProperty(resourceId)) {
                 var $resourceList = $('<ul>', {id: "r" + resourceId, class: "fieldList"});
-                data[resourceId].forEach(function (field) {
+                fieldsData[resourceId].forEach(function (field) {
                     // Make list item for field
                     var fieldId = field.name + '__' + resources[resourceId].name;
+
 
                     var listItem = '<li id="' + fieldId + '" class="list-group-item field-selection-item">'
                         + field.title
@@ -126,8 +126,15 @@ $.getJSON('data/resources.json', function (resources) {
 
 
             if (resources.hasOwnProperty(resourceId)) {
-                $container.append('<h4 class="text-center">' + resources[resourceId].title + '</h4>')
-
+                if (resources[resourceId].notes) {
+                    var $title = $('<h4 class="text-center"><span>' + resources[resourceId].title + '</span>' +
+                    '<span class="glyphicon glyphicon-info-sign icon-right resource-help" aria-hidden="true"></span></h4>');
+                    $title.data('description', resources[resourceId].notes);
+                    $container.append($title)
+                }
+                else {
+                    $container.append('<h4 class="text-center">' + resources[resourceId].title + '</h4>');
+                }
             }
             $listContainer.append($resourceList);
             $container.append($listContainer);
@@ -138,9 +145,9 @@ $.getJSON('data/resources.json', function (resources) {
         }
 
         // Add data to all to the available fields
-        for (var rID in data) {
-            if (data.hasOwnProperty(rID)) {
-                data[rID].forEach(function (field) {
+        for (var rID in fieldsData) {
+            if (fieldsData.hasOwnProperty(rID)) {
+                fieldsData[rID].forEach(function (field) {
                     // Make list item for field
                     var fieldId = field.name + '__' + resources[rID].name;
 
@@ -156,7 +163,8 @@ $.getJSON('data/resources.json', function (resources) {
         $('.icon-right').hover(showDescription, hideDescription);
 
         function showDescription() {
-            var $rev = $('#fields-reveal')
+            console.log('showing');
+            var $rev = $('#fields-reveal');
             var reveal_y = parseInt($rev.css('top'), 10),
                 reveal_x = parseInt($rev.css('margin-left'), 10);
 
@@ -165,12 +173,14 @@ $.getJSON('data/resources.json', function (resources) {
             var data = $(this).parent().data('description');
             $('#infoWindow')
                 .html(data)
-                .css('top', o.top - reveal_y - 10)
-                .css('left', o.left - reveal_x + 30)
+                .css('top', o.top - 10)
+                .css('left', o.left + 35)
                 .fadeIn(150);
+            console.log($('#infoWindow'));
         }
 
         function hideDescription() {
+            console.log('hiding');
             $('#infoWindow')
                 .fadeOut(150);
         }
@@ -185,13 +195,11 @@ $.getJSON('data/resources.json', function (resources) {
 
 //listeners
 $('#fields-reveal').on('click', '.select-all', function () {
-    console.log('selected all');
     $(this).parent().find('li').click();
     listChecked();
 });
 
 $('#fields-reveal').on('click', '#select-done', function () {
-    console.log('selection confirmed');
     $(this).parent().find('li').click();
     var items = listChecked();
     $('#selection-msg').text(items.length + " fields selected.")
@@ -359,7 +367,6 @@ function processMuni(e, latlng, pos, data, layer) {
     console.log('Muni data', data);
     var nid = data.f0_label;
     selectLayer.clearLayers();
-    console.log(nid);
     var sql = new cartodb.SQL({user: 'wprdc'});
     sql.execute("SELECT the_geom FROM allegheny_county_municipal_boundaries WHERE f0_label = '{{id}}'",
         {
@@ -370,7 +377,6 @@ function processMuni(e, latlng, pos, data, layer) {
         }
     )
         .done(function (data) {
-            console.log(data);
             selectLayer.addData(data);
             //setup SQL statement for intersection
             mPolygon = "(SELECT geom FROM allegheny_county_municipal_boundaries WHERE label = '" + nid + "')";
@@ -480,9 +486,9 @@ function initCheckboxes() {
                 selectedFields = removeA(selectedFields, $widget.text());
                 console.log(selectedFields);
             }
-            if(selectedFields.length){
+            if (selectedFields.length) {
                 $notes.html("<li>" + selectedFields.join("</li><li>") + "</li>")
-            } else{
+            } else {
                 $notes.html("<i>nothing selected</i>")
             }
 
@@ -520,30 +526,6 @@ function listChecked() {
 }
 
 
-$(document).ready(function () {
-    $('.js-about').click(function () {
-
-        $('#modal').fadeIn();
-    });
-
-    $('#modal').click(function () {
-        $(this).fadeOut();
-    });
-
-    $('.modal-inner').click(function (event) {
-        event.stopPropagation();
-    });
-
-    $(document).on('keyup', function (evt) {
-        if (evt.keyCode == 27) {
-            if ($('#modal').css('display') == 'block') {
-                $('#modal').fadeOut();
-            }
-        }
-    });
-});
-
-
 function setStatusDisplay(status) {
     var $header = $('#prog-header');
     var $text = $('#prog-text');
@@ -567,7 +549,7 @@ function removeA(arr) {
     var what, a = arguments, L = a.length, ax;
     while (L > 1 && arr.length) {
         what = a[--L];
-        while ((ax= arr.indexOf(what)) !== -1) {
+        while ((ax = arr.indexOf(what)) !== -1) {
             arr.splice(ax, 1);
         }
     }
