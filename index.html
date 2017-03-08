@@ -13,7 +13,7 @@
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=Francois+One" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Squada+One" rel="stylesheet">
 
     <!-- Map Styles -->
     <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/themes/css/cartodb.css"/>
@@ -26,7 +26,7 @@
 
 <body>
 <!-- Description Popup -->
-<div id="flex-town" class=".flex-container">
+<div id="flex-container" class=".flex-container">
     <!-- Header -->
     <div data-sticky-container id="top-title-bar" class="flex-item">
         <div class="title-bar" data-responsive-toggle="nav-menu" data-hide-for="medium"
@@ -58,13 +58,13 @@
     <!-- The Stuff -->
     <div id="main-content-container" class="expanded row flex-item" data-equalizer>
         <!-- Map -->
-        <div id="map" class="medium-7 large-8 columns" data-equalizer-watch>
+        <div id="map" class="small-12 medium-7 large-8 columns" data-equalizer-watch>
             <button type="button" class="infoArrow btn btn-primary btn-arrow-right">
             </button>
         </div>
 
         <!-- Options -->
-        <div id="options-pane" class="medium-5 large-4 columns" data-equalizer-watch>
+        <div id="options-pane" class="small-12 medium-5 large-4 columns" data-equalizer-watch style="overflow: auto;">
 
             <!-- Area Selection -->
             <h3 class="step"><span class="step-number">1</span><span class="step-text">Select Your Area:</span> </h3>
@@ -94,13 +94,14 @@
                 <p id="selection-msg"></p>
             </div>
             <hr>
+
             <!-- Download Buttons -->
             <h3 class="step"><span class="step-number">3</span><span class="step-text">Download!</span></h3>
-            <div id="download-select" class="expanded button-group">
-                <a href="#" id="geojson" class="button radius download" disabled>GeoJSON</a>
-                <a href="#" id="csv" class="button radius download" disabled>CSV</a>
-                <!--<a href="#" id="shp" class="button radius download" disabled >Shapefile</a>-->
-                <a href="#" id="cartodb" class="button radius download" disabled>Open in Carto</a>
+            <div id="download-select" class="stacked-for-medium button-group" >
+                <a href="#" id="geojson" class="button download" disabled >GeoJSON</a>
+                <a href="#" id="csv" class="button download" disabled >CSV</a>
+                <!--<a href="#" id="shp" class="button download" disabled  >Shapefile</a>-->
+                <a href="#" id="cartodb" class="button download" disabled >Open in Carto</a>
             </div>
         </div>
     </div>
@@ -166,7 +167,7 @@
 <!-- Progress Modal -->
 <div class="reveal" id="prog-modal" data-reveal>
     <h2 class="text-center" id="prog-header" style="margin-bottom: 0;">Your data is on it's way!</h2>
-    <img class="text-center" src="etc/images/cat.gif" style="display:block; margin: 0 auto;">
+    <img class="text-center" id="prog-img" src="etc/images/cat.gif" style="display:block; margin: 0 auto;">
     <br>
     <h4 class="text-center" id="prog-text">Generating Request...</h4>
     <h4 class="text-center" id="dl-text" style="display: none;">Download</h4>

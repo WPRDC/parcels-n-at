@@ -6,6 +6,7 @@ var mPolygon;
 var selectedFields = [];
 var api_url = "https://tools.wprdc.org/property-api/data_within/";
 
+
 /**************************************
  * MAP STUFF
  *
@@ -22,7 +23,6 @@ L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png', {
 var selectLayer = L.geoJson().addTo(map); //add empty geojson layer for selections
 
 //leaflet draw stuff
-
 var options = {
     position: 'topright',
     draw: {
@@ -49,22 +49,21 @@ var options = {
 
 var drawControl = new L.Control.Draw(options);
 map.addControl(drawControl);
-// $('.leaflet-draw-toolbar').hide();
 
 var customPolygon;
 map.on('draw:created', function (e) {
-    console.log('draw:created');
+    //console.log('draw:created');
     //hide the arrow
     $('.infoArrow').hide();
 
     var type = e.layerType,
         layer = e.layer;
 
-    console.log(e.layer);
+    //console.log(e.layer);
     drawnLayer = e.layer;
 
     var coords = e.layer._latlngs;
-    console.log(coords);
+    //console.log(coords);
     customPolygon = makeSqlPolygon(coords);
     // Do whatever else you need to. (save to db, add to map etc)
     map.addLayer(layer);
@@ -72,7 +71,6 @@ map.on('draw:created', function (e) {
 });
 
 map.on('draw:drawstart', function (e) {
-    console.log('draw:start');
     if (drawnLayer) {
         map.removeLayer(drawnLayer);
     }
@@ -88,7 +86,6 @@ cartodb.createLayer(map, layerUrl)
         backdrop.setInteraction(false);
         muniLayer = layer.getSubLayer(1);
         hoodLayer = layer.getSubLayer(2);
-        //hoodLayer.setInteractivity("cartodb_id, hood");
         muniLayer.hide();  //hide municipality polygons
         hoodLayer.hide();
         muniLayer.on('featureClick', processMuni);
@@ -107,7 +104,6 @@ $.getJSON('data/resources.json', function (resources) {
                     // Make list item for field
                     var fieldId = field.name + '__' + resources[resourceId].name;
 
-
                     var listItem = '<li id="' + fieldId + '" class="list-group-item field-selection-item">'
                         + field.title
                         + '<span class="glyphicon glyphicon-info-sign icon-right" aria-hidden="true"></span></li>';
@@ -124,11 +120,10 @@ $.getJSON('data/resources.json', function (resources) {
             var $container = $('<div>', {class: "column column-block"});
             var $listContainer = $('<div>', {class: "resource-list-container"});
 
-
             if (resources.hasOwnProperty(resourceId)) {
                 if (resources[resourceId].notes) {
                     var $title = $('<h4 class="text-center"><span>' + resources[resourceId].title + '</span>' +
-                    '<span class="glyphicon glyphicon-info-sign icon-right resource-help" aria-hidden="true"></span></h4>');
+                        '<span class="glyphicon glyphicon-info-sign icon-right resource-help" aria-hidden="true"></span></h4>');
                     $title.data('description', resources[resourceId].notes);
                     $container.append($title)
                 }
@@ -140,8 +135,6 @@ $.getJSON('data/resources.json', function (resources) {
             $container.append($listContainer);
             $container.append('<p class="select-all text-center"><a class="button tiny secondary">Toggle All</a></p>')
             $('#fields-area').append($container);
-
-
         }
 
         // Add data to all to the available fields
@@ -163,11 +156,6 @@ $.getJSON('data/resources.json', function (resources) {
         $('.icon-right').hover(showDescription, hideDescription);
 
         function showDescription() {
-            console.log('showing');
-            var $rev = $('#fields-reveal');
-            var reveal_y = parseInt($rev.css('top'), 10),
-                reveal_x = parseInt($rev.css('margin-left'), 10);
-
             var o = $(this).offset();
 
             var data = $(this).parent().data('description');
@@ -176,11 +164,9 @@ $.getJSON('data/resources.json', function (resources) {
                 .css('top', o.top - 10)
                 .css('left', o.left + 35)
                 .fadeIn(150);
-            console.log($('#infoWindow'));
         }
 
         function hideDescription() {
-            console.log('hiding');
             $('#infoWindow')
                 .fadeOut(150);
         }
@@ -191,7 +177,6 @@ $.getJSON('data/resources.json', function (resources) {
     });
 });
 
-//$('#splashModal').modal('show');
 
 //listeners
 $('#fields-reveal').on('click', '.select-all', function () {
@@ -258,8 +243,7 @@ $('.download').click(function () {
     qry_data.intersects = customPolygon;
     qry_data.type = $(this).attr('id');
     var checked = listChecked();
-    console.log(areaType);
-    console.log('shape', mPolygon, nPolygon);
+
     //generate comma-separated list of fields
     qry_data.fields = JSON.stringify(checked);
 
@@ -303,7 +287,6 @@ $('.download').click(function () {
     var url = buildquery(qry_data);
 
     // Start collection job
-    console.log(url);
     $.get(url)
         .done(function (data) {
             // poll for progress
@@ -323,7 +306,6 @@ $('.download').click(function () {
                 }).done(function (data) {
                     prog = data.percent;
                     task = data.task;
-                    console.log(data);
 
                     // Update progress Modal
                     if (prog < 100) {
@@ -332,7 +314,17 @@ $('.download').click(function () {
                     else {
                         clearInterval(progress_poll);
                         dl_url = "http://tools.wprdc.org/property-api/get_collected_data/?job=" + job_id + "&type=" + qry_data.type;
-                        $('#dl-text').html("<a href='" + dl_url + "'>Click Here to Download</a>");
+                        console.log("DATA:", data);
+                        if (qry_data.cartodb) {
+                            url = encodeURIComponent(dl_url);
+                            url = 'https://oneclick.carto.com/?file=' + url;
+                            window.open(url);
+                            setStatusDisplay('reset');
+                        } else {
+                            url = dl_url
+                        }
+
+                        $('#dl-text').html("<a href='" + url + "'>Click Here to Download</a>");
                         setStatusDisplay('downloaded');
                     }
 
@@ -345,26 +337,14 @@ $('.download').click(function () {
             console.log('failure')
         })
         .always(function (data) {
-            console.log(data)
+            //console.log(data)
         });
-
-
-    // if (data.cartodb) {
-    //     //http://oneclick.carto.com/?file={{YOUR FILE URL}}&provider={{PROVIDER NAME}}&logo={{YOUR LOGO URL}}
-    //     url = encodeURIComponent(url);
-    //     url = 'https://oneclick.carto.com/?file=' + url;
-    //     window.open(url);
-    // }
-    // else {
-    //     window.open(url);
-    // }
 });
 
 //functions
 
 //when a polygon is clicked in Neighborhood View, download its geojson, etc
 function processMuni(e, latlng, pos, data, layer) {
-    console.log('Muni data', data);
     var nid = data.f0_label;
     selectLayer.clearLayers();
     var sql = new cartodb.SQL({user: 'wprdc'});
@@ -386,10 +366,8 @@ function processMuni(e, latlng, pos, data, layer) {
 
 
 function processNeighborhood(e, latlng, pos, data, layer) {
-    console.log('Hood data', data);
     var nid = data.hood;
     selectLayer.clearLayers();
-    console.log(nid);
     var sql = new cartodb.SQL({user: 'wprdc'});
     sql.execute("SELECT the_geom FROM pittsburgh_neighborhoods WHERE hood = '{{id}}'",
         {
@@ -400,7 +378,6 @@ function processNeighborhood(e, latlng, pos, data, layer) {
         }
     )
         .done(function (data) {
-            console.log(data);
             selectLayer.addData(data);
             //setup SQL statement for intersection
             nPolygon = "(SELECT geom FROM pittsburgh_neighborhoods WHERE hood = '" + nid + "')";
@@ -413,7 +390,6 @@ function makeSqlPolygon(coords) {
     var s = "ST_SETSRID(ST_PolygonFromText(\'POLYGON((";
     var firstCoord;
     coords.forEach(function (coord, i) {
-        console.log(coord);
         s += coord.lng + " " + coord.lat + ",";
 
         //remember the first coord
@@ -426,7 +402,6 @@ function makeSqlPolygon(coords) {
         }
     });
     s += "))\'),4326)";
-    console.log(s);
     return s;
 }
 
@@ -455,7 +430,6 @@ function initCheckboxes() {
         $widget.on('click', function () {
             $checkbox.prop('checked', !$checkbox.is(':checked'));
             $checkbox.triggerHandler('change');
-            // updateDisplay();
         });
         $checkbox.on('change', function () {
             updateDisplay();
@@ -480,11 +454,9 @@ function initCheckboxes() {
             if (isChecked) {
                 $widget.addClass(style + color + ' active');
                 selectedFields.push($widget.text());
-                console.log(selectedFields);
             } else {
                 $widget.removeClass(style + color + ' active');
                 selectedFields = removeA(selectedFields, $widget.text());
-                console.log(selectedFields);
             }
             if (selectedFields.length) {
                 $notes.html("<li>" + selectedFields.join("</li><li>") + "</li>")
@@ -520,7 +492,7 @@ function listChecked() {
             'f': $(li).data('field'),
             'r': $(li).data('resource')
         });
-        console.log(checkedItems);
+        //console.log(checkedItems);
     });
     return checkedItems;
 }
@@ -530,14 +502,18 @@ function setStatusDisplay(status) {
     var $header = $('#prog-header');
     var $text = $('#prog-text');
     var $dl = $('#dl-text');
+    var $img = $('#prog-img');
     if (status == 'reset') {
         $header.text("Your Data is On It's Way!");
         $text.text("Sending Request to Server...").show();
-        $dl.hide()
-    } else if (status == 'downloaded') {
+        $dl.hide();
+        $img.show();
+    }
+    else if (status == 'downloaded') {
         $header.text("It's Here!");
         $text.hide();
         $dl.show();
+        $img.hide();
     }
 }
 

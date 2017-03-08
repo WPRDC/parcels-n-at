@@ -1,89 +1,115 @@
+$bg-color: #0e0e0e;
+$fg-color: #bebebe;
+$accent-color: $primary-color;
+
+// ----------------------------------------------------------------------------
+// Flex-grid stuff
+// ----------------------------------------------------------------------------
 html,
 body {
   height: 100%;
   margin: 0
 }
 
-$light-font: #bebebe;
-$background: #0e0e0e;
+@media screen and #{breakpoint(medium)} {
+  #flex-container {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+  }
 
-#flex-town {
-  display: flex;
-  flex-flow: column;
-  height: 100%;
+  #main-content-container {
+    display: flex;
+    align-items: stretch;
+  }
+
+  #footer {
+    background: $bg-color !important;
+  }
+
+  .flex-container {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-content: stretch;
+    align-items: stretch;
+  }
+
+  .flex-item:nth-child(1) {
+    order: 0;
+    flex: 0 1 auto;
+    //border: 2px solid blue
+  }
+
+  .flex-item:nth-child(2) {
+    order: 1;
+    flex: 2 1 auto;
+    align-items: stretch;
+    //border: 2px solid red
+  }
+
+  .flex-item:nth-child(3) {
+    order: 2;
+    flex: 0 1 40px;
+    align-self: auto;
+    //border: 2px solid green
+  }
+
+  #map {
+    display: inline-block;
+    height: 100%;
+    flex: 1 1 auto;
+    align-items: stretch;
+  }
 }
 
-#main-content-container {
-  display: flex;
-  align-items: stretch;
-}
 
-#footer {
-  background: $background !important;
-}
+@media screen and (max-width: 39.9375em) {
 
-.flex-container {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-  align-content: stretch;
-  align-items: stretch;
-}
-
-.flex-item:nth-child(1) {
-  order: 0;
-  flex: 0 1 auto;
-  //border: 2px solid blue
-}
-
-.flex-item:nth-child(2) {
-  order: 1;
-  flex: 2 1 auto;
-  align-items: stretch;
-  //border: 2px solid red
-}
-
-.flex-item:nth-child(3) {
-  order: 2;
-  flex: 0 1 40px;
-  align-self: auto;
-  //border: 2px solid green
-}
-
-#map {
-  display: inline-block;
-  height: 100%;
-  flex: 1 1 auto;
-  align-items: stretch;
+  #map {
+    border: blue solid 2px;
+    display: inline-block;
+    height: 100vh !important;
+    align-items: stretch;
+  }
 }
 
 .expanded.row {
   margin: 0 0 0 0;
 }
 
+// ----------------------------------------------------------------------------
+// Top Bar
+// ----------------------------------------------------------------------------
+
 .top-bar {
-  background: $background !important;
+  background: $bg-color !important;
 }
 
 .top-bar .menu-icon {
-  background: $background !important;
+  background: $bg-color !important;
 }
+
+.title {
+  color: $fg-color;
+  font-size: 1.75rem;
+  font-family: $header-font-family;
+}
+
+// ----------------------------------------------------------------------------
+// Selection Pane
+// ----------------------------------------------------------------------------
 
 #options-pane {
-  background: $background !important;
-  color: $light-font;
-}
-
-.area-select-label {
-  //color: whitesmoke;
+  background: $bg-color !important;
+  color: $fg-color;
 }
 
 input[type="radio"] {
   vertical-align: middle;
 }
-
 
 input[type="radio"] {
   vertical-align: baseline;
@@ -95,7 +121,7 @@ input[type="radio"] {
 
 .btn-group {
   label {
-    color: $light-font;
+    color: $fg-color;
     font-size: 110%;
   }
 }
@@ -103,6 +129,40 @@ input[type="radio"] {
 #area-select {
   margin-left: 2rem;
 }
+
+// Step-by-step headings
+// ---------------------
+$num-circle-radius: 0.8em;
+.step {
+  font-family: $header-font-family;
+  position: relative;
+  display: inline-block;
+}
+
+.step-text {
+  padding-left: 1.2em;
+}
+
+.step-number {
+  background: $accent-color;
+  border-radius: $num-circle-radius;
+  -moz-border-radius: $num-circle-radius;
+  -webkit-border-radius: $num-circle-radius;
+  color: $black;
+  display: inline-block;
+  font-weight: bold;
+
+  line-height: 1.3em;
+  width: 1.3em;
+
+  text-align: center;
+  font-size: 1.2rem;
+  position: absolute;
+  top: .5em;
+}
+
+// Checkboxes
+// ----------
 
 .glyphicon-unchecked, .glyphicon-check {
   cursor: pointer;
@@ -127,6 +187,10 @@ input[type="radio"] {
   right: 0;
 }
 
+// ----------------------------------------------------------------------------
+// Field Selection
+// ----------------------------------------------------------------------------
+
 .list-group {
   font: 300 15px/22px Lato;
 }
@@ -134,7 +198,6 @@ input[type="radio"] {
 .list-group > li {
   margin-bottom: 10px;
 }
-
 
 .icon-right {
   font-size: 17px;
@@ -150,7 +213,7 @@ input[type="radio"] {
   background-size: 13px;
 }
 
-.resource-help{
+.resource-help {
   margin-top: -12px;
   margin-left: 3px;
   color: #5274b0;
@@ -160,10 +223,6 @@ input[type="radio"] {
   opacity: .8;
 }
 
-.hidden {
-  display: none;
-}
-
 .resource-list-container {
   height: 200px;
   overflow-y: scroll;
@@ -171,24 +230,8 @@ input[type="radio"] {
 
 .fieldList {
   list-style: none;
-
 }
 
-.shadow-top {
-  height: 40px;
-  position: absolute;
-  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%);
-  z-index: 2;
-  pointer-events: none;
-}
-
-.shadow-bottom {
-  height: 40px;
-  position: absolute;
-  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
-  z-index: 2;
-  pointer-events: none;
-}
 
 #infoWindow {
   position: absolute;
@@ -196,8 +239,7 @@ input[type="radio"] {
   color: #fff;
   font-size: 12px;
   line-height: 16px;
-  font-family: 'Lato';
-  color: #fff;
+  font-family: $body-font-family;
   background: rgba(0, 0, 0, .8);
   border-radius: 4px;
   z-index: 2000;
@@ -219,26 +261,17 @@ input[type="radio"] {
 .top-button {
   a {
     font-weight: 700;
-    background: $background;
+    background: $bg-color;
   }
 }
 
 #footer {
   p {
-    color: $medium-gray;
+    color: $fg-color;
     text-align: center;
     margin-bottom: 0;
     margin-top: .5rem;
   }
-}
-
-.title {
-  color: $medium-gray;
-  font-size: 1.75rem;
-  font-family: $header-font-family;
-}
-
-.top-bar-left {
 }
 
 .select-all {
@@ -260,15 +293,16 @@ input[type="radio"] {
 .resource-notes {
   font-size: .8rem;
   font-style: italic;
-  color: $medium-gray;
+  color: $fg-color;
 }
 
-.heading {
-  font-size: 1.8rem;
-  color: $light-font;
-  margin: 0;
-  font-weight: 600;
-  font-family: 'Open Sans', sans-serif;
+
+// ----------------------------------------------------------------------------
+// Utils
+// ----------------------------------------------------------------------------
+
+.hidden {
+  display: none;
 }
 
 .wrap-list {
@@ -277,35 +311,4 @@ input[type="radio"] {
     margin: 0 0 .5em 1em;
 
   }
-}
-
-.step {
-  font-family: $header-font-family;
-  position: relative;
-  display: inline-block;
-}
-
-.step-text {
-padding-left: 1.2em;
-}
-
-
-$radius: 0.8em;
-
-.step-number {
-  background: #1779ba;
-  border-radius: $radius;
-  -moz-border-radius: $radius;
-  -webkit-border-radius: $radius;
-  color: $black;
-  display: inline-block;
-  font-weight: bold;
-
-  line-height: 1.3em;
-  width: 1.3em;
-
-  text-align: center;
-  font-size: 1.2rem;
-  position: absolute;
-  top: .5em;
 }
