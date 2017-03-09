@@ -1,0 +1,14 @@
+{
+  "househunting": {
+    "name": "House Hunting",
+    "file": "house_hunting.json"
+  },
+  "landuse": {
+    "name": "Land Use / Ownership",
+    "file": "land_use_ownership.json"
+  },
+  "propchar": {
+    "name": "Property Characteristics",
+    "file": "property_characteristics.json"
+  }
+}

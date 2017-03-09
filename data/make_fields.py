@@ -3,10 +3,10 @@ import json
 
 data = {}
 
-with open('fields.csv') as f:
+with open('data/landuse.csv') as f:
     dr = csv.DictReader(f)
     for row in dr:
-        r = row['resource'] 
+        r = row['resource']
         d = {'name': row['name'],
              'title': row['title'],
              'description': row['description'].replace('\n', ' ').replace('\r','')}

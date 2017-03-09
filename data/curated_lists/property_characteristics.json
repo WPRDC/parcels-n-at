@@ -1,0 +1,291 @@
+{
+  "518b583f-7cc8-4f60-94d0-174cc98310dc": [
+    {
+      "name": "PARID",
+      "description": "A 16 character unique identifier for the parcel.",
+      "title": "Parcel Identification Number"
+    },
+    {
+      "name": "PROPERTYHOUSENUM",
+      "description": "House Number for the  physical location of property; may be zero or blank.",
+      "title": "House Number"
+    },
+    {
+      "name": "PROPERTYFRACTION",
+      "description": "Continued House Number information for the  physical location of property; such as 1/2, the house number ending range, or a letter. ",
+      "title": "House Number Fraction"
+    },
+    {
+      "name": "PROPERTYADDRESS",
+      "description": "Street name for the  physical location of the property, including directional indicators and suffixes.",
+      "title": "Street"
+    },
+    {
+      "name": "PROPERTYCITY",
+      "description": "City where the property is physically located.",
+      "title": "City"
+    },
+    {
+      "name": "PROPERTYSTATE",
+      "description": "State where the property is physically located.",
+      "title": "State"
+    },
+    {
+      "name": "PROPERTYUNIT",
+      "description": "Unit numbers for the property, such as condo units (e.g. 1, 3C,  115A, B13, etc\u00ef\u00bf\u00bd.).",
+      "title": "Unit Number"
+    },
+    {
+      "name": "PROPERTYZIP",
+      "description": "Zip Code where the property is physically located.",
+      "title": "Zip code"
+    },
+    {
+      "name": "MUNICODE",
+      "description": "Municipality number associated with specified parcel.",
+      "title": "Municipality Code"
+    },
+    {
+      "name": "MUNIDESC",
+      "description": "Municipality name associated with specified parcel.",
+      "title": "Municipality Name"
+    },
+    {
+      "name": "SCHOOLCODE",
+      "description": "School district number associated with specified parcel.",
+      "title": "School District Code"
+    },
+    {
+      "name": "SCHOOLDESC",
+      "description": "School district name associated with specified parcel.",
+      "title": "School District Name"
+    },
+    {
+      "name": "LEGAL1",
+      "description": "Line 1 of parcel legal description from the Deed.",
+      "title": "Legal Description 1"
+    },
+    {
+      "name": "LEGAL2",
+      "description": "Line 2 continuation of parcel legal description from the Deed.",
+      "title": "Legal Description 2"
+    },
+    {
+      "name": "LEGAL3",
+      "description": "Line 3 continuation of parcel legal description from the Deed.",
+      "title": "Legal Description 3"
+    },
+    {
+      "name": "TAXCODE",
+      "description": "Tax Status indicates whether or not real estate taxes apply to a parcel's assessment.   Parcels may be Taxable (must pay local taxes), Exempt (pay no taxes), or PURTA [Public Utility Realty Tax Act (if taxes are paid, they are paid into a state fund rather than to local taxing bodies)]. Values:  'E' , 'T' or 'P' .",
+      "title": "Tax Status"
+    },
+    {
+      "name": "TAXDESC",
+      "description": "Description for Tax Status codes:  '10 - Exempt', '20 - Taxable' or '12 - Public Utility Realty Tax - PURTA'.",
+      "title": "Tax Status Description"
+    },
+    {
+      "name": "TAXSUBCODE",
+      "description": "Tax Sub Code applies only to parcels having the PURTA tax status.  Public Utilities may not have to pay taxes (E-Exempt) or they may have to pay taxes into a state fund (T-Taxable). ",
+      "title": "Tax Sub Code"
+    },
+    {
+      "name": "TAXSUBCODE_DESC",
+      "description": "Values:  E - 'PURTA - Exempt',  T - 'PURTA -Taxable' or null.",
+      "title": "Tax Sub Code Description"
+    },
+    {
+      "name": "CLASS",
+      "description": "Broad self-explanatory categories for describing the  general use of a parcel. Categories:  R - RESIDENTIAL, U - UTILITIES, I - INDUSTRIAL, C - COMMERCIAL, O - OTHER, G - GOVERNMENT, F - AGRICULTURAL.",
+      "title": "Class"
+    },
+    {
+      "name": "CLASSDESC",
+      "description": "Broad self-explanatory categories for describing the  general use of a parcel. Categories:  R - RESIDENTIAL, U - UTILITIES, I - INDUSTRIAL, C - COMMERCIAL, O - OTHER, G - GOVERNMENT, F - AGRICULTURAL.",
+      "title": "Class Description"
+    },
+    {
+      "name": "USECODE",
+      "description": "More detailed than class, these categories further describe the primary use of the parcel.  There are about 200 self-explanatory categories.",
+      "title": "Land Use Code"
+    },
+    {
+      "name": "USEDESC",
+      "description": "More detailed than class, these categories further describe the primary use of the parcel.  There are about 200 self-explanatory categories.",
+      "title": "Land Use Code Description"
+    },
+    {
+      "name": "FAIRMARKETBUILDING",
+      "description": "The base year appraised fair market value of the building.  This value has had no reductions, not even Clean and Green preferential assessment reduction.  Allegheny County currently uses a base year of 2012.",
+      "title": "Fair Market Building Value"
+    },
+    {
+      "name": "FAIRMARKETLAND",
+      "description": "The base year appraised fair market value of the land.  This value has had no reductions, not even Clean and Green preferential assessment reduction.  Allegheny County currently uses a base year of 2012.",
+      "title": "Fair Market Land Value"
+    },
+    {
+      "name": "FAIRMARKETTOTAL",
+      "description": "The base year appraised fair market value of land and building together.  This value has had no reductions, not even Clean and Green preferential assessment reduction.  Allegheny County currently uses a base year of 2012.",
+      "title": "Fair Market Total Value"
+    },
+    {
+      "name": "STYLE",
+      "description": "The building style.",
+      "title": "Architectural Style"
+    },
+    {
+      "name": "STYLEDESC",
+      "description": "Description for building style.",
+      "title": "Architectural Style Description"
+    },
+    {
+      "name": "STORIES",
+      "description": "Refers to the story height of the main dwelling.  Attics are not included.  A fractional story height (e.g. 1.5) denotes an upper story where part of the living space is less than full height due to a sloped roof or dormers.",
+      "title": "Number of Stories"
+    },
+    {
+      "name": "YEARBLT",
+      "description": "The original date of construction.",
+      "title": "Year Built"
+    },
+    {
+      "name": "EXTERIORFINISH",
+      "description": "The exterior wall type.",
+      "title": "Exterior Wall code"
+    },
+    {
+      "name": "EXTFINISH_DESC",
+      "description": "Description of building material used for exterior walls.",
+      "title": "Exterior Wall Description"
+    },
+    {
+      "name": "ROOF",
+      "description": "The roofing material type.",
+      "title": "Roof"
+    },
+    {
+      "name": "ROOFDESC",
+      "description": "Description of roofing material.",
+      "title": "Roof Description"
+    },
+    {
+      "name": "BASEMENT",
+      "description": "This code describes the basement under the main part of the dwelling, and categorizes its size in relation to the main dwelling. 1. NONE  - there is no basement. 2. SLAB/PIERS -indicates slab or pier construction. 3. CRAWL - indicates crawl space to 1/4 basement area. 4. PART - indicates basement is between 1/4 and 3/4 of the main dwelling area. 5. FULL - indicates 3/4 to full basement area.",
+      "title": "Basement"
+    },
+    {
+      "name": "BASEMENTDESC",
+      "description": "Description of basement type, if one exists.",
+      "title": "Basement Description"
+    },
+    {
+      "name": "GRADE",
+      "description": "Grade refers to quality of construction:  A, X, XX  - have superior materials and workmanship and are typically custom designed or historic homes. B - construction has above average construction and may exceed code. C - is the standard, construction meets code, and is typical of current materials and methods. D - construction is adequate, but below average with minimal features. E - construction lacks some basics and may be a \"camp\" or seasonal structure.  Pluses and minuses may be used.  ",
+      "title": "Grade"
+    },
+    {
+      "name": "GRADEDESC",
+      "description": "Grade refers to quality of construction:  A, X, XX  - Very Good and Excellent - have superior materials and workmanship and are typically custom designed or historic homes. B - Good - construction has above average construction and may exceed code. C - Average - is the standard, construction meets code, and is typical of current materials and methods. D - Below Average - construction is adequate, but below average with minimal features. E - Poor - construction lacks some basics and may be a \"camp\" or seasonal structure.  Pluses and minuses may be used.  ",
+      "title": "Grade Description"
+    },
+    {
+      "name": "CONDITION",
+      "description": "Code for the overall physical condition or state of repair of a structure, relative to its age. Indicated by number and description:  1- Excellent - outstanding maintenance. 7- Very good - high degree of upkeep. 2- Good - above ordinary maintenance. 3- Average - ordinary maintenance, shows normal wear and tear. 4- Fair - sound but with noticeable deferred maintenance. 5- Poor - structural deterioration caused by significant and chronic deferred maintenance. 8- Very poor - barely livable. 6- Unsound - not suitable for habitation.",
+      "title": "Condition"
+    },
+    {
+      "name": "CONDITIONDESC",
+      "description": "Description for the overall physical condition or state of repair of a structure, relative to its age. Indicated by number and description:  1- Excellent - outstanding maintenance. 7- Very good - high degree of upkeep. 2- Good - above ordinary maintenance. 3- Average - ordinary maintenance, shows normal wear and tear. 4- Fair - sound but with noticeable deferred maintenance. 5- Poor - structural deterioration caused by significant and chronic deferred maintenance. 8- Very poor - barely livable. 6- Unsound - not suitable for habitation.",
+      "title": "Condition Description"
+    },
+    {
+      "name": "CDU",
+      "description": "CDU is a composite rating for structures measuring: Condition (physical condition relative to age), Desirability (location, style), and Utility (functional obsolescence of layout or design). Proper neighborhood delineation compensates for most Desirability and Utility issues, leaving Physical Condition the most influential factor in CDU.  CDU will be null for vacant land.  Excellent - Perfect condition, very attractive and highly desirable. Very good - Slight deterioration, but still quite attractive and desirable. Good - Minor visible deterioration, slightly less attractive and desirable, but still useful. Average - Normal wear and tear, average utility and desirability. Fair - Usable but marked deterioration.  Somewhat unattractive and undesirable. Poor - Obvious deterioration, definitely undesirable. Very poor - Extremely undesirable and barely usable. Unsound - Unfit for use.",
+      "title": "CDU"
+    },
+    {
+      "name": "CDUDESC",
+      "description": "CDU is a composite rating for structures measuring: Condition (physical condition relative to age), Desirability (location, style), and Utility (functional obsolescence of layout or design). Proper neighborhood delineation compensates for most Desirability and Utility issues, leaving Physical Condition the most influential factor in CDU.  CDU will be null for vacant land.  Excellent - Perfect condition, very attractive and highly desirable. Very good - Slight deterioration, but still quite attractive and desirable. Good - Minor visible deterioration, slightly less attractive and desirable, but still useful. Average - Normal wear and tear, average utility and desirability. Fair - Usable but marked deterioration.  Somewhat unattractive and undesirable. Poor - Obvious deterioration, definitely undesirable. Very poor - Extremely undesirable and barely usable. Unsound - Unfit for use.",
+      "title": "CDU Description"
+    },
+    {
+      "name": "TOTALROOMS",
+      "description": "Total number of rooms in the main dwelling.\u00ef\u00bf\u00bd This includes Rec-rooms and FBLA (Finished Basement Living Area).\u00ef\u00bf\u00bd This count is for descriptive purposes only and does not affect assessed value.",
+      "title": "Total Rooms"
+    },
+    {
+      "name": "BEDROOMS",
+      "description": "The total number of separate rooms designed to be used as bedrooms.  If a room was designed to be a bedroom, but is being utilized for some other purpose - such as a den, it is to be included in this count.  This is for descriptive purposes only and does not affect value.",
+      "title": "Bedrooms"
+    },
+    {
+      "name": "FULLBATHS",
+      "description": "A full bath has a toilet, sink and bathing facility (shower or tub).",
+      "title": "Full Baths"
+    },
+    {
+      "name": "HALFBATHS",
+      "description": "A half bath has a toilet and sink only.",
+      "title": "Half Baths"
+    },
+    {
+      "name": "HEATINGCOOLING",
+      "description": "Code for the type of Heating / Cooling system.",
+      "title": "Heating Cooling"
+    },
+    {
+      "name": "HEATINGCOOLINGDESC",
+      "description": "Description for the type Heating / Cooling system.",
+      "title": "Heating Cooling Description"
+    },
+    {
+      "name": "FIREPLACES",
+      "description": "The number of wood-burning fireplace chimneys/vents.  This need not equal the number of working fireplaces in the dwelling.  This number excludes roof stacks built for bathroom venting, natural gas outlets, etc.",
+      "title": "Number of Wood burning Fireplaces Stacks"
+    },
+    {
+      "name": "BSMTGARAGE",
+      "description": "The number of vehicle spaces available in a garage that is basement level and comprises a portion of the main dwelling\u00ef\u00bf\u00bds basement.\u00ef\u00bf\u00bd This does not include detached or attached above-grade garages.",
+      "title": "Integral Basement Garage (Number of Cars)"
+    },
+    {
+      "name": "FINISHEDLIVINGAREA",
+      "description": "Finished living area, as measured from the outside of the structure.",
+      "title": "Total Square Feet of Living Area"
+    }
+  ],
+  "4e5374be-1a88-47f7-afee-6a79317019b4": [
+    {
+      "name": "INSPECTION_DATE",
+      "title": "Inspection Date",
+      "description": "Date of PLI Inspection"
+    },
+    {
+      "name": "CASE_NUMBER",
+      "title": "Case Number",
+      "description": "PLI Case Number"
+    },
+    {
+      "name": "INSPECTION_RESULT",
+      "title": "Inspection Result",
+      "description": "The result of the PLI inspection"
+    },
+    {
+      "name": "VIOLATION",
+      "title": "Violation",
+      "description": "Violtion found during inspection"
+    },
+    {
+      "name": "LOCATION",
+      "title": "Location",
+      "description": "Location of property of the violation"
+    },
+    {
+      "name": "CORRECTIVE_ACTION",
+      "title": "Corrective Action",
+      "description": "Correction action prescribed by inspector"
+    }
+  ]
+}

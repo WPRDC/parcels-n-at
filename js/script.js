@@ -92,9 +92,10 @@ cartodb.createLayer(map, layerUrl)
         hoodLayer.on('featureClick', processNeighborhood);
     });
 
+var _resources;
 //populate fields list
 $.getJSON('data/resources.json', function (resources) {
-
+    _resources = resources;
     $.getJSON('data/fields2.json', function (fieldsData) {
 
         for (var resourceId in fieldsData) {
@@ -531,3 +532,57 @@ function removeA(arr) {
     }
     return arr;
 }
+
+var curatedLists;
+
+$.getJSON('data/curated_fields.json')
+    .done(function (data) {
+        curatedLists = data;
+    })
+    .fail(function (jqxhr, status, error) {
+        var err = status + ", " + error;
+        console.log("Request Failed: " + err);
+    })
+;
+
+$("#field-select a").on('click', function () {
+    var id = $(this).attr('id');
+    var name = id.substring(0, id.length - 4);
+    console.log(curatedLists, name);
+
+    if (name !== 'customfields') {
+        $.getJSON('data/curated_lists/' + curatedLists[name].file)
+            .done(function (c_data) {
+                for (r in c_data) {
+                    var resource = _resources[r];
+                    var fields = c_data[r];
+                    for (var i = 0; i < fields.length; i++) {
+                        var field = fields[i];
+                        var fieldItem = $('#' + field.name + "__" + resource.name);
+                        setClick(fieldItem, true);
+                    }
+                }
+
+
+            })
+            .fail(function (jqxhr, status, error) {
+                var err = status + ", " + error;
+                console.log("Request Failed: " + err);
+            });
+    }
+});
+
+function setClick(elem, on) {
+    active = elem.hasClass('active');
+
+    if ((active && !on) || (!active && on)) {
+        elem.click()
+    }
+}
+
+$('#fields-reveal').find('.close-button').on('click', function () {
+    var checks = $('#fields-reveal').find('li');
+    checks.each(function (i, item) {
+        setClick($(item), false);
+    })
+});

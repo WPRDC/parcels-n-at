@@ -1,0 +1,134 @@
+{
+  "518b583f-7cc8-4f60-94d0-174cc98310dc": [
+    {
+      "name": "PARID",
+      "description": "A 16 character unique identifier for the parcel.",
+      "title": "Parcel Identification Number"
+    },
+    {
+      "name": "PROPERTYHOUSENUM",
+      "description": "House Number for the  physical location of property; may be zero or blank.",
+      "title": "House Number"
+    },
+    {
+      "name": "PROPERTYFRACTION",
+      "description": "Continued House Number information for the  physical location of property; such as 1/2, the house number ending range, or a letter. ",
+      "title": "House Number Fraction"
+    },
+    {
+      "name": "PROPERTYADDRESS",
+      "description": "Street name for the  physical location of the property, including directional indicators and suffixes.",
+      "title": "Street"
+    },
+    {
+      "name": "PROPERTYCITY",
+      "description": "City where the property is physically located.",
+      "title": "City"
+    },
+    {
+      "name": "PROPERTYSTATE",
+      "description": "State where the property is physically located.",
+      "title": "State"
+    },
+    {
+      "name": "PROPERTYUNIT",
+      "description": "Unit numbers for the property, such as condo units (e.g. 1, 3C,  115A, B13, etc\u00ef\u00bf\u00bd.).",
+      "title": "Unit Number"
+    },
+    {
+      "name": "PROPERTYZIP",
+      "description": "Zip Code where the property is physically located.",
+      "title": "Zip code"
+    },
+    {
+      "name": "MUNICODE",
+      "description": "Municipality number associated with specified parcel.",
+      "title": "Municipality Code"
+    },
+    {
+      "name": "MUNIDESC",
+      "description": "Municipality name associated with specified parcel.",
+      "title": "Municipality Name"
+    },
+    {
+      "name": "OWNERCODE",
+      "description": "Numeric code categorizes owner as individuals ('REGULAR' ) vs corporations ('CORPORATION').",
+      "title": "Owner Type Code 1"
+    },
+    {
+      "name": "OWNERDESC",
+      "description": "Descriptions for numeric owner codes.  [e.g. individuals ('REGULAR' ) vs corporations ('CORPORATION')]",
+      "title": "Owner Description"
+    },
+    {
+      "name": "CLASS",
+      "description": "Broad self-explanatory categories for describing the  general use of a parcel. Categories:  R - RESIDENTIAL, U - UTILITIES, I - INDUSTRIAL, C - COMMERCIAL, O - OTHER, G - GOVERNMENT, F - AGRICULTURAL.",
+      "title": "Class"
+    },
+    {
+      "name": "CLASSDESC",
+      "description": "Broad self-explanatory categories for describing the  general use of a parcel. Categories:  R - RESIDENTIAL, U - UTILITIES, I - INDUSTRIAL, C - COMMERCIAL, O - OTHER, G - GOVERNMENT, F - AGRICULTURAL.",
+      "title": "Class Description"
+    },
+    {
+      "name": "USECODE",
+      "description": "More detailed than class, these categories further describe the primary use of the parcel.  There are about 200 self-explanatory categories.",
+      "title": "Land Use Code"
+    },
+    {
+      "name": "USEDESC",
+      "description": "More detailed than class, these categories further describe the primary use of the parcel.  There are about 200 self-explanatory categories.",
+      "title": "Land Use Code Description"
+    },
+    {
+      "name": "LOTAREA",
+      "description": "Total square footage of land.",
+      "title": "Sum of Area of Land"
+    },
+    {
+      "name": "HOMESTEADFLAG",
+      "description": "A property owner may apply for a homestead reduction on their primary residence.  If granted (indicated by 'HOM') the owner will receive a standard reduction on their assessment for County taxes under Act 50.  They may also receive a variable reduction on their School taxes under Act 1.",
+      "title": "Homestead Flag"
+    },
+    {
+      "name": "CLEANGREEN",
+      "description": "This field indicates that a parcel is receiving a reduction in their assessment due to the state\u00ef\u00bf\u00bds Clean and Green preferential assessment program.",
+      "title": "Clean and Green Flag"
+    },
+    {
+      "name": "FARMSTEADFLAG",
+      "description": "A property owner may apply for a farmstead reduction if their primary residence is a farm with at least 10 contiguous acres.  If granted (indicated by 'FRM') the owner will receive a standard reduction on their assessment for County taxes under Act 50.  ",
+      "title": "Farmstead Flag"
+    },
+    {
+      "name": "ABATEMENTFLAG",
+      "description": "This field indicates that a parcel is receiving a reduction in their County assessment due to a County-approved incentive program.   Specific programs and amounts vary according to the County resolutions and ordinances in effect at the time.  Consult the Office of Property Assessments web page to see the current types of Abatements.  Abatements have been available to residential property owners as incentives for new construction and for building improvements.  Abatements for commercial properties have been available for local economic revitalization programs.  Values:  'Y' or null.",
+      "title": "Abatement Flag"
+    },
+    {
+      "name": "SALEDATE",
+      "description": "Date the sale occurred  (mm/dd/yyyy).",
+      "title": "Sale Date"
+    },
+    {
+      "name": "CHANGENOTICEADDRESS1",
+      "description": "Address of owner of the property.",
+      "title": "Change Notice Full Address 1"
+    },
+    {
+      "name": "CHANGENOTICEADDRESS2",
+      "description": "Address of owner of the property.",
+      "title": "Change Notice Full Address 2"
+    },
+    {
+      "name": "CHANGENOTICEADDRESS3",
+      "description": "Address of owner of the property.",
+      "title": "Change Notice Full Address 3"
+    },
+    {
+      "name": "CHANGENOTICEADDRESS4",
+      "description": "Address of owner of the property.",
+      "title": "Change Notice Full Address 4"
+    }
+  ]
+}
