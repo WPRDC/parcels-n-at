@@ -564,5 +564,18 @@
       "title": "Fire Zone",
       "description": "City of Pittsburgh City Fire zone"
     }
+  ],
+  "summary-of-liens-latest": [
+    {
+      "name": "number",
+      "title": "Count",
+      "description": "Total number of liens on property"
+    },
+    {
+      "name": "total_amount",
+      "title": "Total Amount",
+      "description": "Cummulative dollar value of all liens on property"
+
+    }
   ]
 }
