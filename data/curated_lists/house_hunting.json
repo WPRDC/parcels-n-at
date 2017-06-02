@@ -1,11 +1,6 @@
 {
   "518b583f-7cc8-4f60-94d0-174cc98310dc": [
     {
-      "description": "A 16 character unique identifier for the parcel.",
-      "name": "PARID",
-      "title": "Parcel Identification Number"
-    },
-    {
       "description": "House Number for the  physical location of property; may be zero or blank.",
       "name": "PROPERTYHOUSENUM",
       "title": "House Number"

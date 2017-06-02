@@ -3850,7 +3850,7 @@
             }, contains: function (a) {
                 var b, c;
                 return a = "number" == typeof a[0] || a instanceof e.Point ? e.point(a) : e.bounds(a), a instanceof e.Bounds ? (b = a.min, c = a.max) : b = c = a, b.x >= this.min.x && c.x <= this.max.x && b.y >= this.min.y && c.y <= this.max.y
-            }, intersects: function (a) {
+            }, shape: function (a) {
                 a = e.bounds(a);
                 var b = this.min, c = this.max, d = a.min, f = a.max, g = f.x >= b.x && d.x <= c.x, h = f.y >= b.y && d.y <= c.y;
                 return g && h
@@ -4028,7 +4028,7 @@
                 a = "number" == typeof a[0] || a instanceof e.LatLng ? e.latLng(a) : e.latLngBounds(a);
                 var b, c, d = this._southWest, f = this._northEast;
                 return a instanceof e.LatLngBounds ? (b = a.getSouthWest(), c = a.getNorthEast()) : b = c = a, b.lat >= d.lat && c.lat <= f.lat && b.lng >= d.lng && c.lng <= f.lng
-            }, intersects: function (a) {
+            }, shape: function (a) {
                 a = e.latLngBounds(a);
                 var b = this._southWest, c = this._northEast, d = a.getSouthWest(), f = a.getNorthEast(), g = f.lat >= b.lat && d.lat <= c.lat, h = f.lng >= b.lng && d.lng <= c.lng;
                 return g && h
@@ -4545,7 +4545,7 @@
                 }
                 if (b.bounds) {
                     var d = b.tileSize, e = a.multiplyBy(d), f = e.add([d, d]), g = this._map.unproject(e), h = this._map.unproject(f);
-                    if (b.continuousWorld || b.noWrap || (g = g.wrap(), h = h.wrap()), !b.bounds.intersects([g, h]))return !1
+                    if (b.continuousWorld || b.noWrap || (g = g.wrap(), h = h.wrap()), !b.bounds.shape([g, h]))return !1
                 }
                 return !0
             },

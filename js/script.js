@@ -4,7 +4,7 @@ var backdrop, muniLayer;
 var nPolygon;
 var mPolygon;
 var selectedFields = [];
-var api_url = "https://tools.wprdc.org/property-api/data_within/";
+var api_url = "http://127.0.0.1:8000/property-api/data_within/";
 
 
 /**************************************
@@ -30,7 +30,7 @@ var options = {
         polygon: {
             allowIntersection: false, // Restricts shapes to simple polygons
             drawError: {
-                color: '#e1e100', // Color the shape will turn when intersects
+                color: '#e1e100', // Color the shape will turn when shape
                 message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
             },
             shapeOptions: {
@@ -241,7 +241,7 @@ $('.download').click(function () {
 
     //get current view, download type, and checked fields
     var bbox = map.getBounds();
-    qry_data.intersects = customPolygon;
+    qry_data.shape = customPolygon;
     qry_data.type = $(this).attr('id');
     var checked = listChecked();
 
@@ -253,9 +253,8 @@ $('.download').click(function () {
             alert("Don't forget to draw your area on the map!");
             return;
         }
-        qry_data.intersects = customPolygon;
+        qry_data.shape = customPolygon;
     }
-
 
     if (areaType == 'municipality') {
         if (mPolygon == undefined) {
@@ -263,7 +262,7 @@ $('.download').click(function () {
             return;
         }
 
-        qry_data.intersects = mPolygon;
+        qry_data.shape = mPolygon;
     }
 
     if (areaType == 'neighborhood') {
@@ -271,7 +270,7 @@ $('.download').click(function () {
             alert("Don't forget to select your neighborhood from the map!");
             return;
         }
-        qry_data.intersects = nPolygon;
+        qry_data.shape = nPolygon;
     }
 
     if (qry_data.type == 'cartodb') {
@@ -283,12 +282,13 @@ $('.download').click(function () {
      * GET PINS WITHIN SELECTION
      ********************************************************/
         // Generate query for property-api
-    var queryTemplate = api_url + "?shape={{{intersects}}}&fields={{{fields}}}&type={{{type}}}";
+    console.log(qry_data);
+    var queryTemplate = api_url + "?shape={{{shape}}}&fields={{{fields}}}&type={{{type}}}";
     var buildquery = Handlebars.compile(queryTemplate);
     var url = buildquery(qry_data);
 
     // Start collection job
-    $.get(url)
+    $.post(api_url, qry_data)
         .done(function (data) {
             // poll for progress
             var job_id = data.job_id;
@@ -302,7 +302,7 @@ $('.download').click(function () {
 
             var progress_poll = setInterval(function () {
                 $.ajax({
-                    url: "http://tools.wprdc.org/property-api/progress/",
+                    url: "http://localhost:8000/property-api/progress/",
                     data: {job: job_id},
                 }).done(function (data) {
                     prog = data.percent;
