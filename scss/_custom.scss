@@ -223,6 +223,13 @@ $num-circle-radius: 0.8em;
   opacity: .8;
 }
 
+#fields-area {
+  .column-block {
+    padding: 3px 10px 3px 3px;
+    border: solid 1px darkgray;
+  }
+}
+
 .resource-list-container {
   height: 200px;
   overflow-y: scroll;
